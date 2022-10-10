@@ -1,0 +1,36 @@
+{
+    "name": "gas",
+    "version": "1.0.0",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "encore production --progress",
+        "watch": "encore dev --watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/clmntgbr/gas_api.git"
+    },
+    "devDependencies": {
+        "@hotwired/stimulus": "^3.0.0",
+        "@symfony/stimulus-bridge": "^3.0.0",
+        "@symfony/ux-live-component": "file:vendor/symfony/ux-live-component/assets",
+        "@symfony/webpack-encore": "^2.0.0",
+        "core-js": "^3.0.0",
+        "postcss-loader": "^7.0.1",
+        "regenerator-runtime": "^0.13.2",
+        "sass": "^1.54.4",
+        "sass-loader": "^12.6.0",
+        "webpack-notifier": "^1.6.0"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/clmntgbr/gas_api/issues"
+    },
+    "homepage": "https://github.com/clmntgbr/gas_api#readme",
+    "dependencies": {
+        "autoprefixer": "^10.4.8",
+        "tailwindcss": "^3.1.8"
+    }
+}

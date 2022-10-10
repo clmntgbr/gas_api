@@ -1,0 +1,13 @@
+vich_uploader:
+  db_driver: orm
+  storage: flysystem
+  metadata:
+    type: attribute
+
+  mappings:
+    user_image:
+      uri_prefix: /images/users
+      upload_destination: user.storage
+      namer: Vich\UploaderBundle\Naming\UniqidNamer
+      delete_on_update: true
+      delete_on_remove: true

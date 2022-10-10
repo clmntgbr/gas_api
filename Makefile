@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_NAME = docker
+PROJECT_NAME = gas
 
 DOCKER_COMPOSE = docker-compose -p $(PROJECT_NAME)
 
@@ -40,14 +40,11 @@ kill:
 build:
 	@$(DOCKER_COMPOSE) build --pull --no-cache
 
-## Init project
-init: install update
-
 ## Start containers
 start:
 	@$(DOCKER_COMPOSE) up -d
-	@echo "site is available here: https://docker.traefik.me"
-	@echo "admin is available here: https://docker.traefik.me/admin"
+	@echo "site is available here: https://alert.traefik.me"
+	@echo "admin is available here: https://alert.traefik.me/admin"
 
 ## Stop containers
 stop:
@@ -74,6 +71,41 @@ install:
 ## Composer update
 update:
 	$(PHP) composer update
+
+## Drop database
+drop:
+	$(PHP) bin/console doctrine:database:drop --if-exists --force
+
+## Create database
+create:
+	$(PHP) bin/console doctrine:database:create --if-not-exists
+
+## Load fixtures
+fixture:
+	$(PHP) bin/console hautelook:fixtures:load --env=dev --no-interaction
+
+## Making migration file
+migration:
+	$(PHP) bin/console make:migration
+
+## Applying migration
+migrate:
+	$(PHP) bin/console doctrine:migration:migrate --no-interaction
+
+## Init project
+init: install update drop create migrate fixture npm-install npm-build jwt
+
+jwt:
+	$(PHP) bin/console lexik:jwt:generate-keypair
+
+npm-install:
+	$(PHP) npm install
+
+npm-build:
+	$(PHP) npm run build
+
+## Init db
+init-db: drop create migrate fixture
 
 ## QA
 cs-fixer:

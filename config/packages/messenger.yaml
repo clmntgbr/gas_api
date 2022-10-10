@@ -1,0 +1,52 @@
+framework:
+    messenger:
+        failure_transport: failed
+
+        transports:
+            async_priority_high:
+                dsn: "%env(RABBITMQ_URL)%"
+                options:
+                    exchange:
+                        default_publish_routing_key: async-priority-high
+                        name: async_priority_high
+                    queues:
+                        messages_high:
+                            binding_keys: [async-priority-high]
+                retry_strategy:
+                    max_retries: 30
+                    delay: 1000
+                    multiplier: 2
+                    max_delay: 0
+
+            async_priority_low:
+                dsn: "%env(RABBITMQ_URL)%"
+                options:
+                    exchange:
+                        default_publish_routing_key: async-priority-low
+                        name: async_priority_low
+                    queues:
+                        messages_low:
+                            binding_keys: [async-priority-low]
+                retry_strategy:
+                    max_retries: 30
+                    delay: 1000
+                    multiplier: 2
+                    max_delay: 0
+
+            failed:
+                dsn: "%env(RABBITMQ_URL)%"
+                options:
+                    exchange:
+                        default_publish_routing_key: failed
+                        name: failed
+                    queues:
+                        messages_low:
+                            binding_keys: [failed]
+                retry_strategy:
+                    max_retries: 30
+                    delay: 1000
+                    multiplier: 2
+                    max_delay: 0
+
+        routing:
+            # App\Message\MailerMessage: async_priority_high
