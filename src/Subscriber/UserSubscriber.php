@@ -45,12 +45,6 @@ class UserSubscriber implements EventSubscriber
         if (!$this->security->getToken()?->getUser() instanceof User) {
             return;
         }
-
-        $store = new Store();
-        $store
-            ->setIsActive(true)
-            ->setName('Default')
-            ->setUser($user);
     }
 
     public function preUpdate(LifecycleEventArgs $args): void
