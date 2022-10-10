@@ -49,4 +49,5 @@ framework:
                     max_delay: 0
 
         routing:
+            App\Message\CreateGasStationMessage: async_priority_high
             # App\Message\MailerMessage: async_priority_high

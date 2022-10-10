@@ -1,16 +1,21 @@
 parameters:
+    gasPriceYearUrl: "%env(GAS_PRICE_YEAR_URL)%"
+    gasPriceInstantUrl: "%env(GAS_PRICE_INSTANT_URL)%"
 
 services:
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: true
+        autoconfigure: true
+        bind:
+            $gasPriceYearUrl: "%gasPriceYearUrl%"
+            $gasPriceInstantUrl: "%gasPriceInstantUrl%"
 
     App\:
-        resource: '../src/'
+        resource: "../src/"
         exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+            - "../src/DependencyInjection/"
+            - "../src/Entity/"
+            - "../src/Kernel.php"
 
     App\ApiResource\Controller\:
         resource: "../src/ApiResource/Controller/"
@@ -20,5 +25,5 @@ services:
         decorates: "api_platform.openapi.factory"
 
     App\Subscriber\UserSubscriber:
-        tags: 
-            - {name: doctrine.event_subscriber, connection: default}
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
