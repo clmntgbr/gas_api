@@ -2,6 +2,8 @@
 
 namespace App\Admin\Controller;
 
+use App\Entity\GasService;
+use App\Entity\GasStation;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -35,6 +37,8 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToUrl('Api Docs', 'fas fa-map-marker-alt', '/api/docs');
+        yield MenuItem::linkToCrud('GasStation', 'fas fa-list', GasStation::class);
+        yield MenuItem::linkToCrud('GasService', 'fas fa-list', GasService::class);
         yield MenuItem::linkToCrud('User', 'fas fa-list', User::class);
     }
 }

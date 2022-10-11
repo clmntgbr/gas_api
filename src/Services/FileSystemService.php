@@ -24,11 +24,11 @@ final class FileSystemService
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public static function find(string $path, ?string $name)
     {
-        if (!(self::exist($path, null))) {
+        if (!self::exist($path, null)) {
             return null;
         }
 
@@ -62,7 +62,7 @@ final class FileSystemService
 
     public static function createDirectoryIfDontExist(string $path): void
     {
-        if (!(self::exist($path, null))) {
+        if (!self::exist($path, null)) {
             Safe\mkdir($path, 0777, true);
         }
     }

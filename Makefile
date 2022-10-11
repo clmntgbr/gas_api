@@ -105,7 +105,7 @@ npm-build:
 	$(PHP) npm run build
 
 ## Init db
-init-db: drop create migration migrate fixture
+init-db: drop create migrate migration migrate fixture
 
 ## QA
 cs-fixer:
@@ -119,3 +119,19 @@ phpcpd:
 
 phpstan:
 	docker run --init -it --rm -v $(PWD):/project -w /project jakzal/phpqa phpstan analyse ./src --level=5
+
+## Starting consumer
+consume:
+	$(PHP) bin/console messenger:consume async_priority_high async_priority_medium async_priority_low -vv
+
+consume-high:
+	$(PHP) bin/console messenger:consume async_priority_high -vv
+
+consume-medium:
+	$(PHP) bin/console messenger:consume async_priority_medium -vv
+
+consume-low:
+	$(PHP) bin/console messenger:consume async_priority_low -vv
+
+gas-price-update:
+	$(PHP) bin/console app:gas-price-update

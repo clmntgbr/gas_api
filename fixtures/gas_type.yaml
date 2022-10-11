@@ -1,0 +1,30 @@
+App\Entity\GasType:
+  gas_type_in_creation:
+    id: 1
+    reference: '<(App\Lists\GasTypeReference::GAZOLE)>'
+    label: 'Gazole'
+
+  gas_type_not_found_in_text_search:
+    id: 2
+    reference: '<(App\Lists\GasTypeReference::SP95)>'
+    label: 'SP95'
+
+  gas_type_not_found_in_details:
+    id: 3
+    reference: '<(App\Lists\GasTypeReference::E85)>'
+    label: 'E85'
+
+  gas_type_found_on_gov_map:
+    id: 4
+    reference: '<(App\Lists\GasTypeReference::GPLC)>'
+    label: 'GPLC'
+
+  gas_type_found_in_textsearch:
+    id: 5
+    reference: '<(App\Lists\GasTypeReference::E10)>'
+    label: 'E10'
+
+  gas_type_place_id_anomaly:
+    id: 6
+    reference: '<(App\Lists\GasTypeReference::SP98)>'
+    label: 'SP98'

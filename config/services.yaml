@@ -1,6 +1,7 @@
 parameters:
     gasPriceYearUrl: "%env(GAS_PRICE_YEAR_URL)%"
     gasPriceInstantUrl: "%env(GAS_PRICE_INSTANT_URL)%"
+    apiAddressUrl: "%env(API_ADDRESS_URL)%"
 
 services:
     _defaults:
@@ -9,6 +10,7 @@ services:
         bind:
             $gasPriceYearUrl: "%gasPriceYearUrl%"
             $gasPriceInstantUrl: "%gasPriceInstantUrl%"
+            $apiAddressUrl: "%apiAddressUrl%"
 
     App\:
         resource: "../src/"

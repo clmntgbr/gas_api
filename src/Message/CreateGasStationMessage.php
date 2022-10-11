@@ -11,14 +11,14 @@ final class CreateGasStationMessage
      */
     public function __construct(
         private GasStationId $gasStationId,
-        private string       $pop,
-        private string       $cp,
-        private ?string      $longitude,
-        private ?string      $latitude,
-        private string       $street,
-        private string       $city,
-        private string       $country,
-        private array        $element
+        private string $pop,
+        private string $cp,
+        private ?string $longitude,
+        private ?string $latitude,
+        private string $street,
+        private string $city,
+        private string $country,
+        private array $element
     ) {
     }
 

@@ -33,11 +33,11 @@ class GasPrice
     #[ORM\JoinColumn(nullable: false)]
     private GasStation $gasStation;
 
-    #[ORM\ManyToOne(targetEntity: GasType::class, inversedBy: 'gasPrices')]
+    #[ORM\ManyToOne(targetEntity: GasType::class)]
     #[ORM\JoinColumn(nullable: false)]
     private GasType $gasType;
 
-    #[ORM\ManyToOne(targetEntity: Currency::class, inversedBy: 'gasPrices')]
+    #[ORM\ManyToOne(targetEntity: Currency::class)]
     #[ORM\JoinColumn(nullable: false)]
     private Currency $currency;
 
@@ -58,12 +58,12 @@ class GasPrice
         return $this;
     }
 
-    public function getDate(): ?\DateTimeImmutable
+    public function getDate(): ?DateTimeImmutable
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeImmutable $date): self
+    public function setDate(DateTimeImmutable $date): self
     {
         $this->date = $date;
 
