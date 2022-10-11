@@ -43,8 +43,8 @@ build:
 ## Start containers
 start:
 	@$(DOCKER_COMPOSE) up -d
-	@echo "site is available here: https://alert.traefik.me"
-	@echo "admin is available here: https://alert.traefik.me/admin"
+	@echo "site is available here: https://$(PROJECT_NAME).traefik.me"
+	@echo "admin is available here: https://$(PROJECT_NAME).traefik.me/admin"
 
 ## Stop containers
 stop:
@@ -105,7 +105,7 @@ npm-build:
 	$(PHP) npm run build
 
 ## Init db
-init-db: drop create migrate fixture
+init-db: drop create migration migrate fixture
 
 ## QA
 cs-fixer:
