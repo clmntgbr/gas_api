@@ -46,7 +46,6 @@ class GasStationCrudController extends AbstractCrudController
             ->add('company')
             ->add('pop')
             ->add(TextFilter::new('address'))
-            ->add(BooleanFilter::new('isFoundOnGouvMap'))
             ->add(DateTimeFilter::new('createdAt'))
             ->add(DateTimeFilter::new('updatedAt'))
             ->add(DateTimeFilter::new('closedAt'));
@@ -66,9 +65,9 @@ class GasStationCrudController extends AbstractCrudController
                 TextField::new('company'),
                 TextField::new('status'),
                 ArrayField::new('gasServices'),
+                ArrayField::new('lastGasPricesDecode')->setLabel('Last Gas Prices'),
                 AssociationField::new('address'),
                 AssociationField::new('googlePlace'),
-                ArrayField::new('gasServices'),
                 DateTimeField::new('createdAt')
                     ->setFormat('dd/MM/Y HH:mm:ss')
                     ->renderAsNativeWidget(),

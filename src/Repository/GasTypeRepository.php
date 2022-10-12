@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\GasType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,21 @@ class GasTypeRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @return mixed[]
+     * @throws QueryException
+     */
+    public function findGasTypeById(): array
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('t.id, t.reference, t.label')
+            ->orderBy('t.id', 'ASC')
+            ->indexBy('t', 't.id')
+            ->getQuery();
+
+        return $query->getResult();
     }
 
 //    /**

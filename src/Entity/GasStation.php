@@ -74,11 +74,18 @@ class GasStation
     #[ORM\Embedded(class: 'Vich\UploaderBundle\Entity\File')]
     private EmbeddedFile $image;
 
+    #[ORM\Column(type: Types::JSON)]
+    private array $lastGasPrices = [];
+
+    private array $lastGasPricesDecode = [];
+
     public function __construct()
     {
         $this->image = new EmbeddedFile();
         $this->gasPrices = new ArrayCollection();
         $this->gasServices = new ArrayCollection();
+        $this->lastGasPrices = [];
+        $this->lastGasPricesDecode = [];
     }
 
     #[Groups(['read_gas_station'])]
@@ -179,6 +186,35 @@ class GasStation
         return $this;
     }
 
+    /**
+     * @return GasPrice[]
+     */
+    public function getLastGasPricesDecode()
+    {
+        return $this->lastGasPricesDecode;
+    }
+
+    public function setLastGasPricesDecode(GasType $gasType, GasPrice $gasPrice): self
+    {
+        $this->lastGasPricesDecode[$gasType->getId()] = $gasPrice;
+
+        return $this;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getLastGasPrices()
+    {
+        return $this->lastGasPrices;
+    }
+
+    public function setLastGasPrices(GasPrice $gasPrice): self
+    {
+        $this->lastGasPrices[$gasPrice->getGasType()->getId()] = $this->hydrateGasPrices($gasPrice);
+        return $this;
+    }
+
     public function removeGasService(GasService $gasService): self
     {
         if ($this->gasServices->removeElement($gasService)) {
@@ -186,6 +222,17 @@ class GasStation
         }
 
         return $this;
+    }
+
+    private function hydrateGasPrices(GasPrice $gasPrice)
+    {
+        return [
+            'id' => $gasPrice->getId(),
+            'datetimestamp' => $gasPrice->getDateTimestamp(),
+            'gasPriceValue' => $gasPrice->getValue(),
+            'gasTypeId' => $gasPrice->getGasType()->getId(),
+            'gasTypeLabel' => $gasPrice->getGasType()->getLabel(),
+        ];
     }
 
     public function getCompany(): ?string

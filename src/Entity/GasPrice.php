@@ -41,6 +41,11 @@ class GasPrice
     #[ORM\JoinColumn(nullable: false)]
     private Currency $currency;
 
+    public function __toString(): string
+    {
+        return (string) $this->getId();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -94,12 +99,12 @@ class GasPrice
         return $this;
     }
 
-    public function getGasType(): ?GasType
+    public function getGasType(): GasType
     {
         return $this->gasType;
     }
 
-    public function setGasType(?GasType $gasType): self
+    public function setGasType(GasType $gasType): self
     {
         $this->gasType = $gasType;
 

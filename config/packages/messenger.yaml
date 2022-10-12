@@ -67,3 +67,4 @@ framework:
             App\Message\CreateGasStationMessage: async_priority_high
             App\Message\UpdateGasStationAddressMessage: async_priority_medium
             App\Message\CreateGasServiceMessage: async_priority_low
+            App\Message\CreateGasPriceMessage: async_priority_low

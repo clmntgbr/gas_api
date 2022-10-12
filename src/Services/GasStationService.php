@@ -17,9 +17,9 @@ final class GasStationService
     ) {
     }
 
-    public function getGasStationId(SimpleXMLElement $element): GasStationId
+    public function getGasStationId(array $element): GasStationId
     {
-        $gasStationId = (string) $element->attributes()->id;
+        $gasStationId = $element['@attributes']['id'];
 
         if (empty($gasStationId)) {
             throw new GasStationException(GasStationException::GAS_STATION_ID_EMPTY);
@@ -28,18 +28,18 @@ final class GasStationService
         return new GasStationId($gasStationId);
     }
 
-    public function createGasStation(GasStationId $gasStationId, SimpleXMLElement $element): void
+    public function createGasStation(GasStationId $gasStationId, array $element): void
     {
         $this->messageBus->dispatch(new CreateGasStationMessage(
             $gasStationId,
-            (string) $element->attributes()->pop,
-            (string) $element->attributes()->cp,
-            (string) $element->attributes()->longitude,
-            (string) $element->attributes()->latitude,
-            (string) $element->adresse,
-            (string) $element->ville,
+            $element['@attributes']['pop'] ?? throw new \Exception('Missing pop attributes'),
+            $element['@attributes']['cp'] ?? throw new \Exception('Missing cp attributes'),
+            $element['@attributes']['longitude'] ?? throw new \Exception('Missing longitude attributes'),
+            $element['@attributes']['latitude'] ?? throw new \Exception('Missing latitude attributes'),
+            $element['adresse'] ?? throw new \Exception('Missing addresse attributes'),
+            $element['ville'] ?? throw new \Exception('Missing ville attributes'),
             'FRANCE',
-            Safe\json_decode(str_replace('@', '', Safe\json_encode($element)), true)
+            $element,
         ), [new AmqpStamp('async-priority-high', 0, [])]);
     }
 }

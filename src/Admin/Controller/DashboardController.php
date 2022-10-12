@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controller;
 
+use App\Entity\GasPrice;
 use App\Entity\GasService;
 use App\Entity\GasStation;
 use App\Entity\User;
@@ -39,6 +40,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToUrl('Api Docs', 'fas fa-map-marker-alt', '/api/docs');
         yield MenuItem::linkToCrud('GasStation', 'fas fa-list', GasStation::class);
         yield MenuItem::linkToCrud('GasService', 'fas fa-list', GasService::class);
+        yield MenuItem::linkToCrud('GasPrice', 'fas fa-list', GasPrice::class);
         yield MenuItem::linkToCrud('User', 'fas fa-list', User::class);
     }
 }
