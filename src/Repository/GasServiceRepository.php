@@ -50,14 +50,15 @@ class GasServiceRepository extends ServiceEntityRepository
 
     /**
      * @return mixed[]
+     *
      * @throws QueryException
      */
     public function findGasServiceByGasStationId()
     {
-        $query = "SELECT s.label, t.id
+        $query = 'SELECT s.label, t.id
             FROM gas_stations_services gs
             INNER JOIN gas_service s ON gs.gas_service_id = s.id
-            INNER JOIN gas_station t ON gs.gas_station_id = t.id";
+            INNER JOIN gas_station t ON gs.gas_station_id = t.id';
 
         $statement = $this->getEntityManager()->getConnection()->prepare($query);
         $results = $statement->executeQuery()->fetchAllAssociative();

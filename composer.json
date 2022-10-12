@@ -8,6 +8,7 @@
         "ext-ctype": "*",
         "ext-exif": "*",
         "ext-iconv": "*",
+        "ext-simplexml": "*",
         "api-platform/core": "^2.6",
         "cocur/slugify": "^4.2",
         "doctrine/annotations": "^1.0",

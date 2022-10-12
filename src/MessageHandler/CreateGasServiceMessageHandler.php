@@ -16,8 +16,8 @@ final class CreateGasServiceMessageHandler implements MessageHandlerInterface
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private GasStationRepository   $gasStationRepository,
-        private GasServiceRepository   $gasServiceRepository
+        private GasStationRepository $gasStationRepository,
+        private GasServiceRepository $gasServiceRepository
     ) {
     }
 
@@ -37,9 +37,7 @@ final class CreateGasServiceMessageHandler implements MessageHandlerInterface
 
         if ($gasService instanceof GasService) {
             if ($gasStation->hasGasService($gasService)) {
-                throw new UnrecoverableMessageHandlingException(
-                    sprintf('Gas Service is already linked to this Gas Station (Gas Service Label : %s, Gas Station id : %s)', $message->getLabel(), $message->getGasStationId()->getId())
-                );
+                throw new UnrecoverableMessageHandlingException(sprintf('Gas Service is already linked to this Gas Station (Gas Service Label : %s, Gas Station id : %s)', $message->getLabel(), $message->getGasStationId()->getId()));
             }
         }
 

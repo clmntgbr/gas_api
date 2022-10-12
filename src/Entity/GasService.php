@@ -24,15 +24,15 @@ class GasService
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
-    #[Groups(["read"])]
+    #[Groups(['read'])]
     private int $id;
 
     #[ORM\Column(type: Types::STRING, length: 150)]
-    #[Groups(["read"])]
+    #[Groups(['read'])]
     private string $reference;
 
     #[ORM\Column(type: Types::STRING, length: 150)]
-    #[Groups(["read"])]
+    #[Groups(['read'])]
     private string $label;
 
     #[ORM\ManyToMany(targetEntity: GasStation::class, inversedBy: 'gasServices', fetch: 'EXTRA_LAZY')]

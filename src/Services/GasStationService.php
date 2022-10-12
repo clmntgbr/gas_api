@@ -3,18 +3,29 @@
 namespace App\Services;
 
 use App\Common\EntityId\GasStationId;
-use App\Message\CreateGasServiceMessage;
+use App\Common\Exception\GasStationException;
 use App\Message\CreateGasStationMessage;
+use Safe;
 use SimpleXMLElement;
 use Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpStamp;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Safe;
 
 final class GasStationService
 {
     public function __construct(
         private MessageBusInterface $messageBus
     ) {
+    }
+
+    public function getGasStationId(SimpleXMLElement $element): GasStationId
+    {
+        $gasStationId = (string) $element->attributes()->id;
+
+        if (empty($gasStationId)) {
+            throw new GasStationException(GasStationException::GAS_STATION_ID_EMPTY);
+        }
+
+        return new GasStationId($gasStationId);
     }
 
     public function createGasStation(GasStationId $gasStationId, SimpleXMLElement $element): void

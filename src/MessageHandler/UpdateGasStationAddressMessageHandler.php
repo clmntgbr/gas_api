@@ -8,11 +8,11 @@ use App\Lists\GasStationStatusReference;
 use App\Message\UpdateGasStationAddressMessage;
 use App\Repository\GasStationRepository;
 use App\Services\ApiAddressService;
-use GuzzleHttp\Client;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
@@ -21,8 +21,8 @@ final class UpdateGasStationAddressMessageHandler implements MessageHandlerInter
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private ApiAddressService      $apiAddressService,
-        private GasStationRepository   $gasStationRepository
+        private ApiAddressService $apiAddressService,
+        private GasStationRepository $gasStationRepository
     ) {
     }
 
@@ -55,27 +55,27 @@ final class UpdateGasStationAddressMessageHandler implements MessageHandlerInter
 
         $options = [
             'headers' => [
-                "authority" => "www.prix-carburants.gouv.fr",
-                "content-length" => "0",
-                "accept" => "text/javascript, text/html, application/xml, text/xml, */*",
-                "x-prototype-version" => "1.7",
-                "x-requested-with" => "XMLHttpRequest",
-                "user-agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36",
-                "content-type" => "application/x-www-form-urlencoded; charset=UTF-8",
-                "origin" => "https://www.prix-carburants.gouv.fr",
-                "sec-fetch-site" => "same-origin",
-                "sec-fetch-mode" => "cors",
-                "sec-fetch-dest" => "empty",
-                "referer" => "https://www.prix-carburants.gouv.fr/",
-                "accept-language" => "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7,pt;q=0.6,de-DE;q=0.5,de;q=0.4,ru;q=0.3,vi;q=0.2,la;q=0.1,es;q=0.1",
-                "cookie" => "PHPSESSID=74qmi76d5k6vk4uhal69k0qhf6; device_view=full; cookie_law=true; device_view=full"
-            ]
+                'authority' => 'www.prix-carburants.gouv.fr',
+                'content-length' => '0',
+                'accept' => 'text/javascript, text/html, application/xml, text/xml, */*',
+                'x-prototype-version' => '1.7',
+                'x-requested-with' => 'XMLHttpRequest',
+                'user-agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
+                'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+                'origin' => 'https://www.prix-carburants.gouv.fr',
+                'sec-fetch-site' => 'same-origin',
+                'sec-fetch-mode' => 'cors',
+                'sec-fetch-dest' => 'empty',
+                'referer' => 'https://www.prix-carburants.gouv.fr/',
+                'accept-language' => 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7,pt;q=0.6,de-DE;q=0.5,de;q=0.4,ru;q=0.3,vi;q=0.2,la;q=0.1,es;q=0.1',
+                'cookie' => 'PHPSESSID=74qmi76d5k6vk4uhal69k0qhf6; device_view=full; cookie_law=true; device_view=full',
+            ],
         ];
 
         try {
             $response = $client->request(
-                "GET",
-                sprintf("https://www.prix-carburants.gouv.fr/map/recuperer_infos_pdv/%s", $gasStation->getId()),
+                'GET',
+                sprintf('https://www.prix-carburants.gouv.fr/map/recuperer_infos_pdv/%s', $gasStation->getId()),
                 $options
             );
         } catch (GuzzleException $e) {

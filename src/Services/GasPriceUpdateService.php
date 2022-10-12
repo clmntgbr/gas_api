@@ -3,14 +3,9 @@
 namespace App\Services;
 
 use App\Common\EntityId\GasStationId;
-use App\Common\Exception\GasStationException;
-use App\Entity\GasService;
-use App\Message\CreateGasStationMessage;
 use Exception;
 use Safe;
 use SimpleXMLElement;
-use Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpStamp;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 final class GasPriceUpdateService
 {
@@ -19,7 +14,6 @@ final class GasPriceUpdateService
 
     public function __construct(
         private string $gasPriceInstantUrl,
-        private MessageBusInterface $messageBus,
         private GasServiceService $gasServiceService,
         private GasStationService $gasStationService
     ) {
@@ -36,11 +30,11 @@ final class GasPriceUpdateService
 
         $i = 0;
         foreach ($elements as $element) {
-            $gasStationId = $this->getGasStationId($element);
+            $gasStationId = $this->gasStationService->getGasStationId($element);
             $this->createGasStation($gasStationId, $element);
             $this->createGasService($gasStationId, $element);
-            $i++;
-            if ($i == 40) {
+            ++$i;
+            if (20 == $i) {
                 break;
             }
         }
@@ -48,20 +42,9 @@ final class GasPriceUpdateService
         FileSystemService::delete($xmlPath);
     }
 
-    public function getGasStationId(SimpleXMLElement $element): GasStationId
-    {
-        $gasStationId = (string) $element->attributes()->id;
-
-        if (empty($gasStationId)) {
-            throw new GasStationException(GasStationException::GAS_STATION_ID_EMPTY);
-        }
-
-        return new GasStationId($gasStationId);
-    }
-
     private function createGasService(GasStationId $gasStationId, SimpleXMLElement $element): void
     {
-        foreach ((array)$element->services->service as $item) {
+        foreach ((array) $element->services->service as $item) {
             $this->gasServiceService->createGasService(
                 $gasStationId,
                 $item
@@ -77,9 +60,6 @@ final class GasPriceUpdateService
         );
     }
 
-    /**
-     * @throws DotEnvException
-     */
     public function downloadGasPriceFile(string $path, string $name): string
     {
         FileSystemService::delete($path, $name);

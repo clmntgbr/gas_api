@@ -55,7 +55,7 @@ final class CreateGasStationMessageHandler implements MessageHandlerInterface
 
         $gasStation = new GasStation();
         $gasStation
-            ->setId((string)$message->getGasStationId()->getId())
+            ->setId((string) $message->getGasStationId()->getId())
             ->setPop($message->getPop())
             ->setElement($message->getElement())
             ->setAddress($address)
@@ -81,9 +81,9 @@ final class CreateGasStationMessageHandler implements MessageHandlerInterface
      */
     public function isGasStationClosed(array $element, GasStation $gasStation): void
     {
-        if (isset($element['fermeture']['attributes']['type']) && "D" == $element['fermeture']['attributes']['type']) {
+        if (isset($element['fermeture']['attributes']['type']) && 'D' == $element['fermeture']['attributes']['type']) {
             $gasStation
-                ->setClosedAt(DateTimeImmutable::createFromFormat('Y-m-d H:i:s', str_replace("T", " ", substr($element['fermeture']['attributes']['debut'], 0, 19))));
+                ->setClosedAt(DateTimeImmutable::createFromFormat('Y-m-d H:i:s', str_replace('T', ' ', substr($element['fermeture']['attributes']['debut'], 0, 19))));
         }
     }
 }

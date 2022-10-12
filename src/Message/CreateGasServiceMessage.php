@@ -8,9 +8,8 @@ final class CreateGasServiceMessage
 {
     public function __construct(
         private GasStationId $gasStationId,
-        private string       $label
-    )
-    {
+        private string $label
+    ) {
     }
 
     public function getGasStationId(): GasStationId

@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ApiAddressService
 {
-
     public function __construct(
         private string $apiAddressUrl
     ) {
@@ -20,7 +19,7 @@ class ApiAddressService
         $client = new Client();
 
         $response = $client->request(
-            "GET",
+            'GET',
             sprintf($this->apiAddressUrl, trim(strtolower(str_replace([',', 'France'], '', $gasStation->getAddress()->getStreet()))))
         );
 
