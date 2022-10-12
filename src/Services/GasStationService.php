@@ -5,8 +5,6 @@ namespace App\Services;
 use App\Common\EntityId\GasStationId;
 use App\Common\Exception\GasStationException;
 use App\Message\CreateGasStationMessage;
-use Safe;
-use SimpleXMLElement;
 use Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpStamp;
 use Symfony\Component\Messenger\MessageBusInterface;
 

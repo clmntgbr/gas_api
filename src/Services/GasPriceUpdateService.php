@@ -4,12 +4,9 @@ namespace App\Services;
 
 use App\Common\EntityId\GasStationId;
 use App\Common\EntityId\GasTypeId;
-use App\Entity\GasStation;
-use App\Repository\GasStationRepository;
 use App\Repository\GasTypeRepository;
 use Exception;
 use Safe;
-use SimpleXMLElement;
 
 final class GasPriceUpdateService
 {
@@ -38,7 +35,7 @@ final class GasPriceUpdateService
 
         foreach ($elements as $element) {
             $json = json_encode($element);
-            $element = json_decode($json,TRUE);
+            $element = json_decode($json, true);
 
             $gasStationId = $this->gasStationService->getGasStationId($element);
 
@@ -67,6 +64,7 @@ final class GasPriceUpdateService
                     $item
                 );
             }
+
             return;
         }
 
@@ -92,12 +90,11 @@ final class GasPriceUpdateService
     private function createGasPrices(GasStationId $gasStationId, array $element, array $gasTypes): void
     {
         foreach ($element['prix'] ?? [] as $item) {
-
             $gasTypeId = new GasTypeId($item['@attributes']['id'] ?? 0);
             $date = $item['@attributes']['maj'] ?? null;
             $value = $item['@attributes']['valeur'] ?? null;
 
-            if (count($element['prix']) == 1) {
+            if (1 == count($element['prix'])) {
                 $gasTypeId = new GasTypeId($item['id'] ?? 0);
                 $date = $item['maj'] ?? null;
                 $value = $item['valeur'] ?? null;

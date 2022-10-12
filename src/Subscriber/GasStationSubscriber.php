@@ -3,7 +3,6 @@
 namespace App\Subscriber;
 
 use App\Entity\GasStation;
-use App\Helper\GasStationStatusHelper;
 use App\Repository\GasPriceRepository;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -12,9 +11,8 @@ use Doctrine\ORM\Events;
 class GasStationSubscriber implements EventSubscriber
 {
     public function __construct(
-        private GasPriceRepository     $gasPriceRepository
-    )
-    {
+        private GasPriceRepository $gasPriceRepository
+    ) {
     }
 
     public function getSubscribedEvents(): array

@@ -212,6 +212,7 @@ class GasStation
     public function setLastGasPrices(GasPrice $gasPrice): self
     {
         $this->lastGasPrices[$gasPrice->getGasType()->getId()] = $this->hydrateGasPrices($gasPrice);
+
         return $this;
     }
 

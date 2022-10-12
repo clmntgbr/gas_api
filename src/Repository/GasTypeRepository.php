@@ -42,6 +42,7 @@ class GasTypeRepository extends ServiceEntityRepository
 
     /**
      * @return mixed[]
+     *
      * @throws QueryException
      */
     public function findGasTypeById(): array

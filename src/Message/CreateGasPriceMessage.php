@@ -9,11 +9,10 @@ final class CreateGasPriceMessage
 {
     public function __construct(
         private GasStationId $gasStationId,
-        private GasTypeId    $gasTypeId,
-        private ?string       $date,
-        private ?string       $value
-    )
-    {
+        private GasTypeId $gasTypeId,
+        private ?string $date,
+        private ?string $value
+    ) {
     }
 
     public function getGasStationId(): GasStationId

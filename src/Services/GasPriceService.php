@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Common\EntityId\GasStationId;
 use App\Common\EntityId\GasTypeId;
 use App\Message\CreateGasPriceMessage;
-use App\Message\CreateGasServiceMessage;
 use Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpStamp;
 use Symfony\Component\Messenger\MessageBusInterface;
 
