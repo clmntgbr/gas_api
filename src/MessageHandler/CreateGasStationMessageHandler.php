@@ -10,6 +10,7 @@ use App\Lists\GasStationStatusReference;
 use App\Message\CreateGasStationMessage;
 use App\Message\UpdateGasStationAddressMessage;
 use App\Repository\GasStationRepository;
+use App\Services\Uuid;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -62,6 +63,15 @@ final class CreateGasStationMessageHandler implements MessageHandlerInterface
             ->setGooglePlace(new GooglePlace())
             ->setStatus(GasStationStatusReference::CREATED);
 
+        $filename = sprintf('%s.jpg', Uuid::v4());
+        copy('public/images/75d481da-5dd4-497e-a426-f6367685c042.jpg', sprintf('public/images/gas_stations/%s', $filename));
+
+        $gasStation->getImage()->setName($filename);
+        $gasStation->getImage()->setOriginalName($filename);
+        $gasStation->getImage()->setDimensions([660, 440]);
+        $gasStation->getImage()->setMimeType('jpg');
+        $gasStation->getImage()->setSize(86110);
+
         $this->isGasStationClosed($message->getElement(), $gasStation);
 
         if (null !== $gasStation->getClosedAt()) {
@@ -73,7 +83,7 @@ final class CreateGasStationMessageHandler implements MessageHandlerInterface
 
         $this->messageBus->dispatch(new UpdateGasStationAddressMessage(
             new GasStationId($gasStation->getId())
-        ), [new AmqpStamp('async-priority-medium', 0, [])]);
+        ), [new AmqpStamp('async-priority-low', 0, [])]);
     }
 
     /**

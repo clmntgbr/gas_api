@@ -7,6 +7,7 @@ use App\Repository\GooglePlaceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: GooglePlaceRepository::class)]
 #[ApiResource(
@@ -20,48 +21,63 @@ class GooglePlace
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
+    #[Groups(['read_gas_stations'])]
     private int $id;
 
     #[ORM\Column(type: Types::STRING, length: 15, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $googleId = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $url = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $website = null;
 
     #[ORM\Column(type: Types::STRING, length: 20, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $phoneNumber = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $placeId = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $compoundCode = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $globalCode = null;
 
     #[ORM\Column(type: Types::STRING, length: 10, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $googleRating = null;
 
     #[ORM\Column(type: Types::STRING, length: 10, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $rating = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $reference = null;
 
     #[ORM\Column(type: Types::STRING, length: 10, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $userRatingsTotal = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $icon = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $businessStatus = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private array $openingHours = [];
 
     public function __construct()

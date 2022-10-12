@@ -15,7 +15,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     collectionOperations: ['get'],
     itemOperations: ['get'],
-    normalizationContext: ['groups' => ['read']]
 )]
 class GasService
 {
@@ -24,15 +23,14 @@ class GasService
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
-    #[Groups(['read'])]
+    #[Groups(['read_gas_stations'])]
     private int $id;
 
     #[ORM\Column(type: Types::STRING, length: 150)]
-    #[Groups(['read'])]
     private string $reference;
 
     #[ORM\Column(type: Types::STRING, length: 150)]
-    #[Groups(['read'])]
+    #[Groups(['read_gas_stations'])]
     private string $label;
 
     #[ORM\ManyToMany(targetEntity: GasStation::class, inversedBy: 'gasServices', fetch: 'EXTRA_LAZY')]

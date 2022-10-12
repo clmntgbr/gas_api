@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\GasStationRepository;
 use DateTime;
 use DateTimeImmutable;
@@ -17,8 +17,10 @@ use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: GasStationRepository::class)]
-#[ApiResource]
-#[Vich\Uploadable]
+#[ApiResource(
+    collectionOperations: ['get' => ['normalization_context' => ['skip_null_values' => false, 'groups' => ['read_gas_stations']]]],
+    itemOperations: ['get'],
+)]
 class GasStation
 {
     use TimestampableEntity;
@@ -26,24 +28,24 @@ class GasStation
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\Column(type: Types::STRING)]
-    #[Groups(['read_gas_station'])]
+    #[Groups(['read_gas_stations'])]
     private string $id;
 
     #[ORM\Column(type: Types::STRING, length: 10)]
-    #[Groups(['read_gas_station'])]
+    #[Groups(['read_gas_stations'])]
     private string $pop;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['read_gas_station'])]
+    #[Groups(['read_gas_stations'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['read_gas_station'])]
+    #[Groups(['read_gas_stations'])]
     private ?string $company = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
-    #[Groups(['read_gas_station'])]
-    private string $status;
+    #[ORM\Column(type: Types::JSON)]
+    #[Groups(['read_gas_stations'])]
+    private array $status;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     #[Groups(['read_gas_station'])]
@@ -51,12 +53,12 @@ class GasStation
 
     #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read_gas_station'])]
+    #[Groups(['read_gas_stations'])]
     private Address $address;
 
     #[ORM\ManyToOne(targetEntity: GooglePlace::class, cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read_gas_station'])]
+    #[Groups(['read_gas_stations'])]
     private GooglePlace $googlePlace;
 
     #[ORM\Column(type: Types::JSON)]
@@ -66,6 +68,7 @@ class GasStation
     private Collection $gasPrices;
 
     #[ORM\ManyToMany(targetEntity: GasService::class, mappedBy: 'gasStations', cascade: ['persist'])]
+    #[Groups(['read_gas_stations'])]
     private Collection $gasServices;
 
     #[Vich\UploadableField(mapping: 'gas_station_image', fileNameProperty: 'image.name', size: 'image.size', mimeType: 'image.mimeType', originalName: 'image.originalName', dimensions: 'image.dimensions')]
@@ -75,9 +78,8 @@ class GasStation
     private EmbeddedFile $image;
 
     #[ORM\Column(type: Types::JSON)]
+    #[Groups(['read_gas_stations'])]
     private array $lastGasPrices = [];
-
-    private array $lastGasPricesDecode = [];
 
     public function __construct()
     {
@@ -88,7 +90,7 @@ class GasStation
         $this->lastGasPricesDecode = [];
     }
 
-    #[Groups(['read_gas_station'])]
+    #[Groups(['read_gas_stations'])]
     public function getImagePath(): string
     {
         return sprintf('/images/%s', $this->getImage()->getName());
@@ -187,21 +189,6 @@ class GasStation
     }
 
     /**
-     * @return GasPrice[]
-     */
-    public function getLastGasPricesDecode()
-    {
-        return $this->lastGasPricesDecode;
-    }
-
-    public function setLastGasPricesDecode(GasType $gasType, GasPrice $gasPrice): self
-    {
-        $this->lastGasPricesDecode[$gasType->getId()] = $gasPrice;
-
-        return $this;
-    }
-
-    /**
      * @return array<mixed>
      */
     public function getLastGasPrices()
@@ -233,6 +220,7 @@ class GasStation
             'gasPriceValue' => $gasPrice->getValue(),
             'gasTypeId' => $gasPrice->getGasType()->getId(),
             'gasTypeLabel' => $gasPrice->getGasType()->getLabel(),
+            'currency' => $gasPrice->getCurrency()->getLabel(),
         ];
     }
 
@@ -326,14 +314,14 @@ class GasStation
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): array
     {
         return $this->status;
     }
 
     public function setStatus(string $status): self
     {
-        $this->status = $status;
+        $this->status[] = $status;
 
         return $this;
     }

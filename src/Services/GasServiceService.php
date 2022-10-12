@@ -19,6 +19,6 @@ final class GasServiceService
         $this->messageBus->dispatch(new CreateGasServiceMessage(
             $gasStationId,
             $item
-        ), [new AmqpStamp('async-priority-low', 0, [])]);
+        ), [new AmqpStamp('async-priority-medium', 0, [])]);
     }
 }

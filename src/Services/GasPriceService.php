@@ -22,6 +22,6 @@ final class GasPriceService
             $gasTypeId,
             $date,
             $value
-        ), [new AmqpStamp('async-priority-low', 0, [])]);
+        ), [new AmqpStamp('async-priority-medium', 0, [])]);
     }
 }

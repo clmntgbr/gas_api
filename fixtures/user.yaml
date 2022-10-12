@@ -5,8 +5,8 @@ App\Entity\User:
     plain_password: "clement"
     roles: ["ROLE_ADMIN"]
     is_enable: true
-    image.name: "kdi02939Idjdk102.png"
-    image.originalName: "kdi02939Idjdk102.png"
+    image.name: "74af81c4-a0f2-47f7-84d6-632291bfcdc7.png"
+    image.originalName: "74af81c4-a0f2-47f7-84d6-632291bfcdc7.png"
     image.mimeType: "image/jpg"
     image.size: "19154"
     image.dimensions: ["251", "400"]
@@ -18,8 +18,8 @@ App\Entity\User:
     plain_password: "jean"
     roles: ["ROLE_USER"]
     is_enable: true
-    image.name: "kdi02939Idjdk102.png"
-    image.originalName: "kdi02939Idjdk102.png"
+    image.name: "74af81c4-a0f2-47f7-84d6-632291bfcdc7.png"
+    image.originalName: "74af81c4-a0f2-47f7-84d6-632291bfcdc7.png"
     image.mimeType: "image/jpg"
     image.size: "19154"
     name: "Jean"

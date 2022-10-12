@@ -11,10 +11,14 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class GasStationCrudController extends AbstractCrudController
 {
@@ -52,6 +56,24 @@ class GasStationCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        return [
+            FormField::addPanel('Gas Station Details'),
+
+            FormField::addPanel('Image'),
+            TextField::new('imageFile', 'Upload')
+                ->setFormType(VichImageType::class)
+                ->onlyOnForms(),
+            ImageField::new('image.name', 'Image')
+                ->setRequired(true)
+                ->setBasePath('/images/gas_stations/')
+                ->hideOnForm(),
+            TextField::new('image.name', 'Name')->setDisabled()->hideOnIndex(),
+            TextField::new('image.originalName', 'originalName')->setDisabled()->hideOnIndex(),
+            NumberField::new('image.size', 'Size')->setDisabled()->hideOnIndex(),
+            TextField::new('image.mimeType', 'mimeType')->setDisabled()->hideOnIndex(),
+            ArrayField::new('image.dimensions', 'Dimensions')->setDisabled()->hideOnIndex(),
+        ];
+
         if (Crud::PAGE_NEW === $pageName) {
             return [];
         }
@@ -62,9 +84,9 @@ class GasStationCrudController extends AbstractCrudController
                 TextField::new('pop'),
                 TextField::new('name'),
                 TextField::new('company'),
-                TextField::new('status'),
+                ArrayField::new('status'),
                 ArrayField::new('gasServices'),
-                ArrayField::new('lastGasPricesDecode')->setLabel('Last Gas Prices'),
+                ArrayField::new('lastGasPrices')->setLabel('Last Gas Prices'),
                 AssociationField::new('address'),
                 AssociationField::new('googlePlace'),
                 DateTimeField::new('createdAt')
@@ -86,7 +108,7 @@ class GasStationCrudController extends AbstractCrudController
                 TextField::new('pop'),
                 TextField::new('name'),
                 TextField::new('company'),
-                TextField::new('status'),
+                ArrayField::new('status'),
                 ArrayField::new('gasServices'),
                 AssociationField::new('address')
                     ->setFormTypeOption('disabled', 'disabled'),
@@ -112,7 +134,7 @@ class GasStationCrudController extends AbstractCrudController
                 IdField::new('id')->setMaxLength(15),
                 TextField::new('name'),
                 TextField::new('pop'),
-                TextField::new('status'),
+                ArrayField::new('status'),
                 AssociationField::new('address'),
                 AssociationField::new('googlePlace'),
                 DateTimeField::new('closedAt')

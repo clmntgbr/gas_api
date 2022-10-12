@@ -10,7 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: GasPriceRepository::class)]
-#[ApiResource]
+#[\ApiPlatform\Core\Annotation\ApiResource(
+    collectionOperations: ['get'],
+    itemOperations: ['get'],
+)]
 class GasPrice
 {
     use TimestampableEntity;

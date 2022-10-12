@@ -7,6 +7,7 @@ use App\Repository\AddressRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
 #[ApiResource(
@@ -20,33 +21,43 @@ class Address
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
+    #[Groups(['read_gas_stations'])]
     private int $id;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $vicinity = null;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Groups(['read_gas_stations'])]
     private string $street;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $number = null;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Groups(['read_gas_stations'])]
     private string $city;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups(['read_gas_stations'])]
     private ?string $region = null;
 
     #[ORM\Column(type: Types::STRING, length: 50)]
+    #[Groups(['read_gas_stations'])]
     private string $postalCode;
 
     #[ORM\Column(type: Types::STRING, length: 50)]
+    #[Groups(['read_gas_stations'])]
     private string $country;
 
     #[ORM\Column(type: Types::STRING, length: 50)]
+    #[Groups(['read_gas_stations'])]
     private string $longitude;
 
     #[ORM\Column(type: Types::STRING, length: 50)]
+    #[Groups(['read_gas_stations'])]
     private string $latitude;
 
     public function __construct()

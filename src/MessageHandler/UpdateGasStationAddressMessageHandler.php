@@ -79,12 +79,13 @@ final class UpdateGasStationAddressMessageHandler implements MessageHandlerInter
                 $options
             );
         } catch (GuzzleException $e) {
-            throw new GasStationException(GasStationException::GAS_STATION_INFORMATION_NOT_FOUND);
+            $gasStation->setStatus(GasStationStatusReference::FOUND_ON_GOV_MAP);
         }
 
         $content = $response->getBody()->getContents();
 
         if ('No route found' === $content) {
+            $gasStation->setStatus(GasStationStatusReference::FOUND_ON_GOV_MAP);
             return;
         }
 

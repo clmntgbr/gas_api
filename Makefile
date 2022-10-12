@@ -122,7 +122,7 @@ phpstan:
 
 ## Starting consumer
 consume:
-	$(PHP) bin/console messenger:consume async_priority_high async_priority_low -vv
+	$(PHP) bin/console messenger:consume async_priority_high async_priority_medium async_priority_low -vv
 
 consume-high:
 	$(PHP) bin/console messenger:consume async_priority_high -vv
