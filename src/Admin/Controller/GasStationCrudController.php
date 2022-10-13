@@ -10,7 +10,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
@@ -39,9 +38,7 @@ class GasStationCrudController extends AbstractCrudController
     {
         return $actions
             ->remove(Crud::PAGE_INDEX, Action::NEW)
-            ->remove(Crud::PAGE_DETAIL, Action::DELETE)
-            ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->disable(Action::NEW, Action::DELETE);
+            ->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
 
     public function configureFilters(Filters $filters): Filters

@@ -2,6 +2,9 @@ parameters:
     gasPriceYearUrl: "%env(GAS_PRICE_YEAR_URL)%"
     gasPriceInstantUrl: "%env(GAS_PRICE_INSTANT_URL)%"
     apiAddressUrl: "%env(API_ADDRESS_URL)%"
+    googleApiKey: "%env(GOOGLE_API_KEY)%"
+    placeTextsearchUrl: "%env(PLACE_TEXTSEARCH_URL)%"
+    placeDetailsUrl: "%env(PLACE_DETAILS_URL)%"
 
 services:
     _defaults:
@@ -11,6 +14,9 @@ services:
             $gasPriceYearUrl: "%gasPriceYearUrl%"
             $gasPriceInstantUrl: "%gasPriceInstantUrl%"
             $apiAddressUrl: "%apiAddressUrl%"
+            $googleApiKey: "%googleApiKey%"
+            $placeTextsearchUrl: "%placeTextsearchUrl%"
+            $placeDetailsUrl: "%placeDetailsUrl%"
 
     App\:
         resource: "../src/"

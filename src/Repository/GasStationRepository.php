@@ -47,6 +47,8 @@ class GasStationRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('s')
             ->select('s')
             ->where('s.closedAt is null')
+            ->orderBy('s.updatedAt', 'DESC')
+            ->setMaxResults(2)
             ->getQuery();
 
         return $query->getResult();

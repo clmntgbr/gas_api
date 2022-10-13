@@ -52,12 +52,12 @@ class GasStation
     #[Groups(['read_gas_station'])]
     private ?DateTimeImmutable $closedAt = null;
 
-    #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist'])]
+    #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read_gas_stations'])]
     private Address $address;
 
-    #[ORM\ManyToOne(targetEntity: GooglePlace::class, cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: GooglePlace::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read_gas_stations'])]
     private GooglePlace $googlePlace;
@@ -65,10 +65,10 @@ class GasStation
     #[ORM\Column(type: Types::JSON)]
     private array $element = [];
 
-    #[ORM\OneToMany(mappedBy: 'gasStation', targetEntity: GasPrice::class)]
+    #[ORM\OneToMany(mappedBy: 'gasStation', targetEntity: GasPrice::class, cascade: ['persist', 'remove'])]
     private Collection $gasPrices;
 
-    #[ORM\ManyToMany(targetEntity: GasService::class, mappedBy: 'gasStations', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: GasService::class, mappedBy: 'gasStations', cascade: ['persist', 'remove'])]
     #[Groups(['read_gas_stations'])]
     private Collection $gasServices;
 
@@ -78,9 +78,15 @@ class GasStation
     #[ORM\Embedded(class: 'Vich\UploaderBundle\Entity\File')]
     private EmbeddedFile $image;
 
-    #[ORM\Column(type: Types::JSON)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     #[Groups(['read_gas_stations'])]
     private array $lastGasPrices = [];
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $textsearchApiResult;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $placeDetailsApiResult;
 
     public function __construct()
     {
@@ -88,7 +94,6 @@ class GasStation
         $this->gasPrices = new ArrayCollection();
         $this->gasServices = new ArrayCollection();
         $this->lastGasPrices = [];
-        $this->lastGasPricesDecode = [];
     }
 
     #[Groups(['read_gas_stations'])]
@@ -348,6 +353,31 @@ class GasStation
             $gasPrice['date'] = (new DateTime())->setTimestamp($gasPrice['datetimestamp'])->format('Y-m-d h:s:i');
             $string .= json_encode($gasPrice);
         }
+
         return $string;
+    }
+
+    public function getPlaceDetailsApiResult(): ?array
+    {
+        return $this->placeDetailsApiResult;
+    }
+
+    public function setPlaceDetailsApiResult(?array $placeDetailsApiResult): self
+    {
+        $this->placeDetailsApiResult = $placeDetailsApiResult;
+
+        return $this;
+    }
+
+    public function getTextsearchApiResult(): ?array
+    {
+        return $this->textsearchApiResult;
+    }
+
+    public function setTextsearchApiResult(?array $textsearchApiResult): self
+    {
+        $this->textsearchApiResult = $textsearchApiResult;
+
+        return $this;
     }
 }

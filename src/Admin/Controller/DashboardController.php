@@ -2,9 +2,11 @@
 
 namespace App\Admin\Controller;
 
+use App\Entity\Address;
 use App\Entity\GasPrice;
 use App\Entity\GasService;
 use App\Entity\GasStation;
+use App\Entity\GooglePlace;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -41,6 +43,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('GasStation', 'fas fa-list', GasStation::class);
         yield MenuItem::linkToCrud('GasService', 'fas fa-list', GasService::class);
         yield MenuItem::linkToCrud('GasPrice', 'fas fa-list', GasPrice::class);
+        yield MenuItem::linkToCrud('GooglePlace', 'fas fa-list', GooglePlace::class);
+        yield MenuItem::linkToCrud('Address', 'fas fa-list', Address::class);
         yield MenuItem::linkToCrud('User', 'fas fa-list', User::class);
     }
 }
