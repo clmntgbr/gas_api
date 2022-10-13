@@ -11,3 +11,9 @@ vich_uploader:
       namer: Vich\UploaderBundle\Naming\UniqidNamer
       delete_on_update: true
       delete_on_remove: true
+    gas_stations_image:
+      uri_prefix: /images/gas_stations
+      upload_destination: gas_stations.storage
+      namer: Vich\UploaderBundle\Naming\UniqidNamer
+      delete_on_update: true
+      delete_on_remove: true

@@ -67,7 +67,7 @@ class Address
 
     public function __toString(): string
     {
-        return (string) $this->id;
+        return (string) $this->vicinity;
     }
 
     public function getId(): ?int

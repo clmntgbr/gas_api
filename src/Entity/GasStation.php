@@ -21,6 +21,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     collectionOperations: ['get' => ['normalization_context' => ['skip_null_values' => false, 'groups' => ['read_gas_stations']]]],
     itemOperations: ['get'],
 )]
+#[Vich\Uploadable]
 class GasStation
 {
     use TimestampableEntity;
@@ -71,7 +72,7 @@ class GasStation
     #[Groups(['read_gas_stations'])]
     private Collection $gasServices;
 
-    #[Vich\UploadableField(mapping: 'gas_station_image', fileNameProperty: 'image.name', size: 'image.size', mimeType: 'image.mimeType', originalName: 'image.originalName', dimensions: 'image.dimensions')]
+    #[Vich\UploadableField(mapping: 'gas_stations_image', fileNameProperty: 'image.name', size: 'image.size', mimeType: 'image.mimeType', originalName: 'image.originalName', dimensions: 'image.dimensions')]
     private ?File $imageFile = null;
 
     #[ORM\Embedded(class: 'Vich\UploaderBundle\Entity\File')]

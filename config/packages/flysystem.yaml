@@ -4,3 +4,7 @@ flysystem:
             adapter: "local"
             options:
                 directory: "%kernel.project_dir%/public/images/users"
+        gas_stations.storage:
+            adapter: "local"
+            options:
+                directory: "%kernel.project_dir%/public/images/gas_stations"

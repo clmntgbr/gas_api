@@ -58,6 +58,31 @@ class GasStationCrudController extends AbstractCrudController
     {
         return [
             FormField::addPanel('Gas Station Details'),
+            IdField::new('id'),
+            TextField::new('pop'),
+            TextField::new('name'),
+            TextField::new('company'),
+            ArrayField::new('status'),
+
+            FormField::addPanel('Gas Station Address'),
+            AssociationField::new('address')->hideOnIndex(),
+
+            FormField::addPanel('Gas Station Google Place'),
+            AssociationField::new('googlePlace')->hideOnIndex(),
+
+            FormField::addPanel('Gas Station Metadata'),
+            DateTimeField::new('createdAt')
+                ->setFormat('dd/MM/Y HH:mm:ss')
+                ->renderAsNativeWidget()
+                ->hideOnForm(),
+            DateTimeField::new('updatedAt')
+                ->setFormat('dd/MM/Y HH:mm:ss')
+                ->renderAsNativeWidget()
+                ->hideOnForm(),
+            DateTimeField::new('closedAt')
+                ->setFormat('dd/MM/Y HH:mm:ss')
+                ->renderAsNativeWidget()
+                ->hideOnForm(),
 
             FormField::addPanel('Image'),
             TextField::new('imageFile', 'Upload')
@@ -73,82 +98,5 @@ class GasStationCrudController extends AbstractCrudController
             TextField::new('image.mimeType', 'mimeType')->setDisabled()->hideOnIndex(),
             ArrayField::new('image.dimensions', 'Dimensions')->setDisabled()->hideOnIndex(),
         ];
-
-        if (Crud::PAGE_NEW === $pageName) {
-            return [];
-        }
-
-        if (Crud::PAGE_DETAIL === $pageName) {
-            return [
-                IdField::new('id'),
-                TextField::new('pop'),
-                TextField::new('name'),
-                TextField::new('company'),
-                ArrayField::new('status'),
-                ArrayField::new('gasServices'),
-                ArrayField::new('lastGasPrices')->setLabel('Last Gas Prices'),
-                AssociationField::new('address'),
-                AssociationField::new('googlePlace'),
-                DateTimeField::new('createdAt')
-                    ->setFormat('dd/MM/Y HH:mm:ss')
-                    ->renderAsNativeWidget(),
-                DateTimeField::new('updatedAt')
-                    ->setFormat('dd/MM/Y HH:mm:ss')
-                    ->renderAsNativeWidget(),
-                DateTimeField::new('closedAt')
-                    ->setFormat('dd/MM/Y HH:mm:ss')
-                    ->renderAsNativeWidget(),
-            ];
-        }
-
-        if (Crud::PAGE_EDIT === $pageName) {
-            return [
-                IdField::new('id')
-                    ->setFormTypeOption('disabled', 'disabled'),
-                TextField::new('pop'),
-                TextField::new('name'),
-                TextField::new('company'),
-                ArrayField::new('status'),
-                ArrayField::new('gasServices'),
-                AssociationField::new('address')
-                    ->setFormTypeOption('disabled', 'disabled'),
-                AssociationField::new('googlePlace')
-                    ->setFormTypeOption('disabled', 'disabled'),
-                DateTimeField::new('closedAt')
-                    ->setFormat('dd/MM/Y HH:mm:ss')
-                    ->renderAsNativeWidget()
-                    ->setFormTypeOption('disabled', 'disabled'),
-                DateTimeField::new('createdAt')
-                    ->setFormat('dd/MM/Y HH:mm:ss')
-                    ->renderAsNativeWidget()
-                    ->setFormTypeOption('disabled', 'disabled'),
-                DateTimeField::new('updatedAt')
-                    ->setFormat('dd/MM/Y HH:mm:ss')
-                    ->renderAsNativeWidget()
-                    ->setFormTypeOption('disabled', 'disabled'),
-            ];
-        }
-
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [
-                IdField::new('id')->setMaxLength(15),
-                TextField::new('name'),
-                TextField::new('pop'),
-                ArrayField::new('status'),
-                AssociationField::new('address'),
-                AssociationField::new('googlePlace'),
-                DateTimeField::new('closedAt')
-                    ->setFormat('dd/MM/Y HH:mm:ss')
-                    ->renderAsNativeWidget(),
-                DateTimeField::new('createdAt')
-                    ->setFormat('dd/MM/Y HH:mm:ss')
-                    ->renderAsNativeWidget(),
-                DateTimeField::new('updatedAt')
-                    ->setFormat('dd/MM/Y HH:mm:ss')
-                    ->renderAsNativeWidget(),
-            ];
-        }
-
-        return [];
     }
 }
