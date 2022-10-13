@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\GasPriceRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: GasPriceRepository::class)]
-#[\ApiPlatform\Core\Annotation\ApiResource(
+#[ApiResource(
     collectionOperations: ['get'],
     itemOperations: ['get'],
 )]
