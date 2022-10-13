@@ -85,18 +85,30 @@ final class CreateGasPriceMessageHandler implements MessageHandlerInterface
         $this->em->flush();
     }
 
-    public function updateLastGasPrices(GasStation $gasStation, GasPrice $gasPrice, GasType $gasType): void
+    private function updateLastGasPrices(GasStation $gasStation, GasPrice $gasPrice, GasType $gasType): void
     {
         $lastGasPrices = $gasStation->getLastGasPrices();
 
         if (!array_key_exists($gasPrice->getGasType()->getId(), $lastGasPrices)) {
             $gasStation->setLastGasPrices($gasPrice);
+            $this->updateGasStationIsClosed($gasStation);
 
             return;
         }
 
         if ($lastGasPrices[$gasPrice->getGasType()->getId()]['datetimestamp'] < $gasPrice->getDateTimestamp()) {
             $gasStation->setLastGasPrices($gasPrice);
+            $this->updateGasStationIsClosed($gasStation);
         }
+    }
+
+    private function updateGasStationIsClosed(GasStation $gasStation)
+    {
+        if (null === $gasStation->getClosedAt()) {
+            return;
+        }
+
+        $gasStation->setClosedAt(null);
+        $gasStation->setStatus($gasStation->getPreviousStatus());
     }
 }

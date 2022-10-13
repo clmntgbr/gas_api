@@ -10,7 +10,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -63,6 +65,7 @@ class GasStationCrudController extends AbstractCrudController
             TextField::new('name'),
             TextField::new('company'),
             ArrayField::new('status'),
+            Field::new('lastGasPricesAdmin')->hideOnIndex()->hideOnForm(),
 
             FormField::addPanel('Gas Station Address'),
             AssociationField::new('address')->hideOnIndex(),

@@ -2,7 +2,6 @@
 
 namespace App\MessageHandler;
 
-use App\Common\Exception\GasStationException;
 use App\Entity\GasStation;
 use App\Lists\GasStationStatusReference;
 use App\Message\UpdateGasStationAddressMessage;
@@ -86,6 +85,7 @@ final class UpdateGasStationAddressMessageHandler implements MessageHandlerInter
 
         if ('No route found' === $content) {
             $gasStation->setStatus(GasStationStatusReference::FOUND_ON_GOV_MAP);
+
             return;
         }
 

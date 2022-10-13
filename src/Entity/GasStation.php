@@ -326,4 +326,28 @@ class GasStation
 
         return $this;
     }
+
+    public function getActualStatus(): ?string
+    {
+        return end($this->status);
+    }
+
+    public function getPreviousStatus(): ?string
+    {
+        if (count($this->status) <= 1) {
+            return end($this->status);
+        }
+
+        return $this->status[count($this->status) - 2];
+    }
+
+    public function getLastGasPricesAdmin()
+    {
+        $string = '';
+        foreach ($this->lastGasPrices as $gasPrice) {
+            $gasPrice['date'] = (new DateTime())->setTimestamp($gasPrice['datetimestamp'])->format('Y-m-d h:s:i');
+            $string .= json_encode($gasPrice);
+        }
+        return $string;
+    }
 }

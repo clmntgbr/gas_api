@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Common\EntityId\GasStationId;
 use App\Common\Exception\GasStationException;
+use App\Entity\GasStation;
 use App\Message\CreateGasStationMessage;
+use App\Message\UpdateGasStationClosedMessage;
 use Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpStamp;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -39,5 +41,12 @@ final class GasStationService
             'FRANCE',
             $element,
         ), [new AmqpStamp('async-priority-high', 0, [])]);
+    }
+
+    public function updateGasStationClosed(GasStation $gasStation)
+    {
+        $this->messageBus->dispatch(new UpdateGasStationClosedMessage(
+            new GasStationId($gasStation->getId()),
+        ), [new AmqpStamp('async-priority-low', 0, [])]);
     }
 }
