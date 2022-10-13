@@ -380,4 +380,9 @@ class GasStation
 
         return $this;
     }
+
+    public function getGooglePlaceId(): ?string
+    {
+        return $this->googlePlace?->getPlaceId();
+    }
 }

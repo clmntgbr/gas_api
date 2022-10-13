@@ -33,9 +33,19 @@ final class CreateGooglePlaceDetailsMessageHandler implements MessageHandlerInte
         }
 
         if (GasStationStatusReference::FOUND_IN_TEXTSEARCH !== $gasStation->getActualStatus()) {
-            throw new UnrecoverableMessageHandlingException(sprintf('Gas Station has bad FOUND IN TEXTSEARCH status (id : %s)', $message->getGasStationId()->getId()));
+            throw new UnrecoverableMessageHandlingException(sprintf('Gas Station has bad FOUND_IN_TEXTSEARCH status (id : %s)', $message->getGasStationId()->getId()));
+        }
+
+        if (GasStationStatusReference::PLACE_ID_ANOMALY === $gasStation->getActualStatus()) {
+            return;
         }
 
         $this->googlePlaceService->findPlaceDetails($gasStation);
+
+        $gasStationsAnomalies = $this->gasStationRepository->getGasStationGooglePlaceByPlaceId($gasStation);
+
+        if (count($gasStationsAnomalies) > 1) {
+            $this->googlePlaceService->createAnomalies($gasStationsAnomalies);
+        }
     }
 }

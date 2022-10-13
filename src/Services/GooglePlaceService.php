@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Common\EntityId\GasStationId;
 use App\Entity\GasStation;
 use App\Lists\GasStationStatusReference;
+use App\Message\CreateGooglePlaceAnomalyMessage;
 use App\Message\CreateGooglePlaceDetailsMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Safe;
@@ -122,5 +123,17 @@ final class GooglePlaceService
             ->setLatitude($details['geometry']['location']['lat'] ?? null);
 
         $this->em->persist($address);
+    }
+
+    /**
+     * @param array<int, GasStation> $gasStations
+     */
+    public function createAnomalies(array $gasStations): void
+    {
+        foreach ($gasStations as $gasStationAnomaly) {
+            $this->messageBus->dispatch(new CreateGooglePlaceAnomalyMessage(
+                new GasStationId($gasStationAnomaly->getId())
+            ), [new AmqpStamp('async-priority-high', 0, [])]);
+        }
     }
 }

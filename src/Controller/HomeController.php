@@ -20,6 +20,16 @@ class HomeController extends AbstractController
     public function test(GasStationRepository $gasStationRepository): Response
     {
         $gasStation = $gasStationRepository->findOneBy(['id' => 9100002]);
+        $gasStations = $gasStationRepository->findAll();
+
+        $gasStationsGrouped = [];
+        foreach ($gasStations as $gasStation) {
+            if (null !== $gasStation->getGooglePlace()->getPlaceId()) {
+                $gasStationsGrouped[$gasStation->getGooglePlace()->getPlaceId()][] = '++';
+            }
+        }
+
+        dd($gasStationsGrouped);
         dd($gasStation->getActualStatus(), $gasStation->getPreviousStatus());
 
         return $this->render('Home/test.html.twig', [

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\GasStation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -48,7 +49,24 @@ class GasStationRepository extends ServiceEntityRepository
             ->select('s')
             ->where('s.closedAt is null')
             ->orderBy('s.updatedAt', 'DESC')
-            ->setMaxResults(2)
+            ->setMaxResults(15)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    /**
+     * @return GasStation[]
+     *
+     * @throws QueryException
+     */
+    public function getGasStationGooglePlaceByPlaceId(GasStation $gasStation)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->select('s')
+            ->innerJoin('s.googlePlace', 'ss')
+            ->where('ss.placeId = :placeId AND ss.placeId IS NOT NULL')
+            ->setParameter('placeId', $gasStation->getGooglePlace()->getPlaceId())
             ->getQuery();
 
         return $query->getResult();

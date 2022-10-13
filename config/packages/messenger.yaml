@@ -69,4 +69,6 @@ framework:
             App\Message\CreateGasServiceMessage: async_priority_medium
             App\Message\CreateGasPriceMessage: async_priority_medium
             App\Message\UpdateGasStationClosedMessage: async_priority_medium
+            App\Message\CreateGooglePlaceTextsearchMessage: async_priority_medium
             App\Message\CreateGooglePlaceDetailsMessage: async_priority_low
+            App\Message\CreateGooglePlaceAnomalyMessage: async_priority_low
