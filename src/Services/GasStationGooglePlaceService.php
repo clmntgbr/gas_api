@@ -23,7 +23,7 @@ final class GasStationGooglePlaceService
         $gasStations = $this->gasStationRepository->findGasStationNotClosed();
 
         foreach ($gasStations as $gasStation) {
-            if (GasStationStatusReference::FOUND_ON_GOV_MAP === $gasStation->getActualStatus()) {
+            if (GasStationStatusReference::FOUND_ON_GOV_MAP === $gasStation->getStatus()) {
                 $this->createGooglePlaceTextsearch($gasStation);
             }
         }

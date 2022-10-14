@@ -30,7 +30,7 @@ final class CreateGooglePlaceAnomalyMessageHandler implements MessageHandlerInte
             throw new UnrecoverableMessageHandlingException(sprintf('Gas Station doesnt exist (id : %s)', $message->getGasStationId()->getId()));
         }
 
-        if (GasStationStatusReference::PLACE_ID_ANOMALY === $gasStation->getActualStatus()) {
+        if (GasStationStatusReference::PLACE_ID_ANOMALY === $gasStation->getStatus()) {
             throw new UnrecoverableMessageHandlingException(sprintf('Gas Station has bad PLACE_ID_ANOMALY status (id : %s)', $message->getGasStationId()->getId()));
         }
 

@@ -36,7 +36,7 @@ final class CreateGooglePlaceTextsearchMessageHandler implements MessageHandlerI
             throw new UnrecoverableMessageHandlingException(sprintf('Gas Station doesnt exist (id : %s)', $message->getGasStationId()->getId()));
         }
 
-        if (GasStationStatusReference::FOUND_ON_GOV_MAP !== $gasStation->getActualStatus()) {
+        if (GasStationStatusReference::FOUND_ON_GOV_MAP !== $gasStation->getStatus()) {
             throw new UnrecoverableMessageHandlingException(sprintf('Gas Station has bad FOUND_ON_GOV_MAP status (id : %s)', $message->getGasStationId()->getId()));
         }
 

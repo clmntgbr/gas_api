@@ -20,6 +20,12 @@ class AddressCrudController extends AbstractCrudController
         return Address::class;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setDefaultSort(['updatedAt' => 'DESC']);
+    }
+
     public function configureActions(Actions $actions): Actions
     {
         return $actions

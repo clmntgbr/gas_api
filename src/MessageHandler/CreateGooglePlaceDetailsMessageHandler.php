@@ -32,11 +32,11 @@ final class CreateGooglePlaceDetailsMessageHandler implements MessageHandlerInte
             throw new UnrecoverableMessageHandlingException(sprintf('Gas Station already exist (id : %s)', $message->getGasStationId()->getId()));
         }
 
-        if (GasStationStatusReference::FOUND_IN_TEXTSEARCH !== $gasStation->getActualStatus()) {
+        if (GasStationStatusReference::FOUND_IN_TEXTSEARCH !== $gasStation->getStatus()) {
             throw new UnrecoverableMessageHandlingException(sprintf('Gas Station has bad FOUND_IN_TEXTSEARCH status (id : %s)', $message->getGasStationId()->getId()));
         }
 
-        if (GasStationStatusReference::PLACE_ID_ANOMALY === $gasStation->getActualStatus()) {
+        if (GasStationStatusReference::PLACE_ID_ANOMALY === $gasStation->getStatus()) {
             return;
         }
 

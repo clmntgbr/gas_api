@@ -44,9 +44,13 @@ class GasStation
     #[Groups(['read_gas_stations'])]
     private ?string $company = null;
 
-    #[ORM\Column(type: Types::JSON)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     #[Groups(['read_gas_stations'])]
-    private array $status;
+    private ?array $statuses;
+
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    #[Groups(['read_gas_stations'])]
+    private ?string $status;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     #[Groups(['read_gas_station'])]
@@ -320,30 +324,37 @@ class GasStation
         return $this;
     }
 
-    public function getStatus(): array
+    public function getStatus(): string
     {
         return $this->status;
     }
 
     public function setStatus(string $status): self
     {
-        $this->status[] = $status;
+        $this->status = $status;
 
         return $this;
     }
 
-    public function getActualStatus(): ?string
+    public function getStatuses(): ?array
     {
-        return end($this->status);
+        return $this->statuses;
+    }
+
+    public function setStatuses(string $status): self
+    {
+        $this->statuses[] = $status;
+
+        return $this;
     }
 
     public function getPreviousStatus(): ?string
     {
-        if (count($this->status) <= 1) {
-            return end($this->status);
+        if (count($this->statuses) <= 1) {
+            return end($this->statuses);
         }
 
-        return $this->status[count($this->status) - 2];
+        return $this->status[count($this->statuses) - 2];
     }
 
     public function getLastGasPricesAdmin()

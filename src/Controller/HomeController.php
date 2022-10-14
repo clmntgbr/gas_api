@@ -29,8 +29,7 @@ class HomeController extends AbstractController
             }
         }
 
-        dd($gasStationsGrouped);
-        dd($gasStation->getActualStatus(), $gasStation->getPreviousStatus());
+        dd($gasStation->getStatus(), $gasStation->getPreviousStatus());
 
         return $this->render('Home/test.html.twig', [
         ]);

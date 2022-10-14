@@ -62,7 +62,8 @@ class GasStationCrudController extends AbstractCrudController
             TextField::new('name'),
             TextField::new('company'),
             TextField::new('googlePlaceId')->onlyOnIndex(),
-            ArrayField::new('status'),
+            ArrayField::new('status')->onlyOnIndex(),
+            ArrayField::new('statuses')->hideOnIndex(),
             Field::new('lastGasPricesAdmin')->hideOnIndex()->hideOnForm(),
 
             FormField::addPanel('Gas Station Address'),
@@ -75,7 +76,7 @@ class GasStationCrudController extends AbstractCrudController
             DateTimeField::new('createdAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
                 ->renderAsNativeWidget()
-                ->hideOnForm(),
+                ->hideOnIndex(),
             DateTimeField::new('updatedAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
                 ->renderAsNativeWidget()
