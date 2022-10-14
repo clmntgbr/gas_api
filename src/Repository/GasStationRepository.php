@@ -49,7 +49,7 @@ class GasStationRepository extends ServiceEntityRepository
             ->select('s')
             ->where('s.closedAt is null')
             ->orderBy('s.updatedAt', 'DESC')
-            ->setMaxResults(15)
+            ->setMaxResults(10)
             ->getQuery();
 
         return $query->getResult();

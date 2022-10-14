@@ -332,7 +332,7 @@ class GasStation
     public function setStatus(string $status): self
     {
         $this->status = $status;
-
+        $this->setStatuses($status);
         return $this;
     }
 
