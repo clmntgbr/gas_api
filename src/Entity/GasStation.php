@@ -350,6 +350,7 @@ class GasStation
     {
         $this->status = $status;
         $this->setStatuses($status);
+
         return $this;
     }
 

@@ -7,7 +7,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 class GasStationsMapDto
 {
-    #[Groups(["read_gas_stations"])]
+    #[Groups(['read_gas_stations'])]
     /** @var GasStation[] */
     public $gasStations;
 
@@ -19,12 +19,14 @@ class GasStationsMapDto
     public function addGasStations(GasStation $gasStation)
     {
         $this->gasStations[] = $gasStation;
+
         return $this;
     }
 
     public function setGasStations(array $gasStations)
     {
         $this->gasStations = $gasStations;
+
         return $this;
     }
 
