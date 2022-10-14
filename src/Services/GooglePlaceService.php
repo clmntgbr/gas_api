@@ -118,7 +118,7 @@ final class GooglePlaceService
         }
 
         $address
-            ->setVicinity($details['formatted_address'] ?? null)
+            ->setVicinity($details['vicinity'] ?? null)
             ->setLongitude($details['geometry']['location']['lng'] ?? null)
             ->setLatitude($details['geometry']['location']['lat'] ?? null);
 

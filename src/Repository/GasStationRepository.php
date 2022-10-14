@@ -49,7 +49,7 @@ class GasStationRepository extends ServiceEntityRepository
             ->select('s')
             ->where('s.closedAt is null')
             ->orderBy('s.updatedAt', 'DESC')
-            ->setMaxResults(10)
+            ->setMaxResults(15)
             ->getQuery();
 
         return $query->getResult();
@@ -72,28 +72,25 @@ class GasStationRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-//    /**
-//     * @return GasStation[] Returns an array of GasStation objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('g.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /** @return GasStation[] */
+    public function getGasStationsMap(string $longitude, string $latitude, string $radius)
+    {
+        $query = "  SELECT s.id, (SQRT(POW(69.1 * (a.latitude - $latitude), 2) + POW(69.1 * ($longitude - a.longitude) * COS(a.latitude / 57.3), 2))*1000) as distance
+                    FROM gas_station s 
+                    INNER JOIN address a ON s.address_id = a.id
+                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL AND s.status != 'closed'
+                    HAVING `distance` < $radius
+                    ORDER BY `distance` ASC LIMIT 100;
+        ";
 
-//    public function findOneBySomeField($value): ?GasStation
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $statement = $this->getEntityManager()->getConnection()->prepare($query);
+
+        $query = $this->createQueryBuilder('s')
+            ->select('s')
+            ->where('s.id IN (:ids)')
+            ->setParameter('ids', $statement->executeQuery()->fetchFirstColumn())
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

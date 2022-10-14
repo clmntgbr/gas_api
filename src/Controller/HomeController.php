@@ -19,17 +19,8 @@ class HomeController extends AbstractController
     #[Route('/test', name: 'app_test')]
     public function test(GasStationRepository $gasStationRepository): Response
     {
-        $gasStation = $gasStationRepository->findOneBy(['id' => 9100002]);
-        $gasStations = $gasStationRepository->findAll();
-
-        $gasStationsGrouped = [];
-        foreach ($gasStations as $gasStation) {
-            if (null !== $gasStation->getGooglePlace()->getPlaceId()) {
-                $gasStationsGrouped[$gasStation->getGooglePlace()->getPlaceId()][] = '++';
-            }
-        }
-
-        dd($gasStation->getStatus(), $gasStation->getPreviousStatus());
+        $gasStations = $gasStationRepository->getGasStationsMap(2.358192, 48.764977, 5000);
+        dd($gasStations);
 
         return $this->render('Home/test.html.twig', [
         ]);

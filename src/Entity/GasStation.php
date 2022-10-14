@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\ApiResource\Controller\GasStationsMap;
 use App\Repository\GasStationRepository;
 use DateTime;
 use DateTimeImmutable;
@@ -18,8 +21,22 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: GasStationRepository::class)]
 #[ApiResource(
-    collectionOperations: ['get' => ['normalization_context' => ['skip_null_values' => false, 'groups' => ['read_gas_stations']]]],
+    collectionOperations: [
+        'get' => ['normalization_context' => ['skip_null_values' => false, 'groups' => ['read_gas_stations']]],
+        'get_gas_stations_map' => [
+            'method' => 'GET',
+            'path' => '/gas_stations/map',
+            'controller' => GasStationsMap::class,
+            'pagination_enabled' => false,
+            'deserialize' => false,
+            'read' => false,
+            'normalization_context' => ['skip_null_values' => false, 'groups' => ['read_gas_stations']],
+        ],
+    ],
     itemOperations: ['get'],
+)]
+#[ApiFilter(
+    SearchFilter::class, properties: ['id' => 'exact', 'status' => 'exact']
 )]
 #[Vich\Uploadable]
 class GasStation

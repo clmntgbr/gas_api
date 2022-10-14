@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
@@ -73,6 +74,9 @@ class GasStationCrudController extends AbstractCrudController
 
             FormField::addPanel('Gas Station Google Place'),
             AssociationField::new('googlePlace')->hideOnIndex(),
+
+            FormField::addPanel('Gas Station Services'),
+            ArrayField::new('gasServices')->hideOnIndex(),
 
             FormField::addPanel('Gas Station Metadata'),
             DateTimeField::new('createdAt')

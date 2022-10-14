@@ -96,8 +96,8 @@ final class UpdateGasStationAddressMessageHandler implements MessageHandlerInter
 
         if (isset($values[5]) && isset($values[6]) && isset($values[7]) && isset($values[8])) {
             $gasStation
-                ->setName(trim($values[5]))
-                ->setCompany(trim($values[6]));
+                ->setName(ucwords(strtolower(trim($values[5]))))
+                ->setCompany(ucwords(strtolower(trim($values[6]))));
 
             $address = $gasStation->getAddress();
             $address
