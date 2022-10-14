@@ -21,8 +21,7 @@ class GasStationsMap extends AbstractController
 
     public function __invoke(Request $request): ?GasStationsMapDto
     {
-        $gasStations = $this->gasStationRepository->getGasStationsMap(2.358192, 48.764977, 5000);
-
+        $gasStations = $this->gasStationRepository->getGasStationsMap(2.358192, 48.764977, 500000, $request->query->all());
         return new GasStationsMapDto($gasStations);
     }
 }

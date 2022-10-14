@@ -7,6 +7,7 @@ use App\Entity\Currency;
 use App\Entity\GasPrice;
 use App\Entity\GasService;
 use App\Entity\GasStation;
+use App\Entity\GasType;
 use App\Entity\GooglePlace;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -44,6 +45,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('GasStation', 'fas fa-list', GasStation::class);
         yield MenuItem::linkToCrud('GasService', 'fas fa-list', GasService::class);
         yield MenuItem::linkToCrud('GasPrice', 'fas fa-list', GasPrice::class);
+        yield MenuItem::linkToCrud('GasType', 'fas fa-list', GasType::class);
         yield MenuItem::linkToCrud('Currency', 'fas fa-list', Currency::class);
         yield MenuItem::linkToCrud('GooglePlace', 'fas fa-list', GooglePlace::class);
         yield MenuItem::linkToCrud('Address', 'fas fa-list', Address::class);

@@ -9,7 +9,7 @@ class GasStationsMapDto
 {
     #[Groups(['read_gas_stations'])]
     /** @var GasStation[] */
-    public $gasStations;
+    private $gasStations;
 
     public function __construct(array $gasStations)
     {
