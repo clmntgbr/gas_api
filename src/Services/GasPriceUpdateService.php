@@ -39,7 +39,7 @@ final class GasPriceUpdateService
 
             $gasStationId = $this->gasStationService->getGasStationId($element);
 
-            if (!in_array(substr($gasStationId->getId(), 0, 2), ['94', '92', '91', '75'])) {
+            if (!in_array(substr($gasStationId->getId(), 0, 2), ['94'])) {
                 continue;
             }
 

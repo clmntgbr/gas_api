@@ -16,7 +16,7 @@ trait ListTrait
         $result = [];
 
         foreach ($constants as $constant) {
-            $result[uniqid()] = $constant;
+            $result[strtoupper($constant)] = $constant;
         }
 
         return $result;

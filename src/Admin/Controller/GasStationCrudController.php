@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controller;
 
+use App\Admin\Controller\Filter\GasStationStatusFilter;
 use App\Entity\GasStation;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -47,6 +48,7 @@ class GasStationCrudController extends AbstractCrudController
             ->add('id')
             ->add('company')
             ->add('pop')
+            ->add(GasStationStatusFilter::new('status'))
             ->add(TextFilter::new('address'))
             ->add(DateTimeFilter::new('createdAt'))
             ->add(DateTimeFilter::new('updatedAt'))
@@ -58,7 +60,7 @@ class GasStationCrudController extends AbstractCrudController
         return [
             FormField::addPanel('Gas Station Details'),
             IdField::new('id'),
-            TextField::new('pop'),
+            TextField::new('pop')->hideOnIndex(),
             TextField::new('name'),
             TextField::new('company'),
             TextField::new('googlePlaceId')->onlyOnIndex(),
