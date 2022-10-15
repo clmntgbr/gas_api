@@ -407,7 +407,7 @@ class GasStation
             unset($gasPrice['datetimestamp']);
             unset($gasPrice['gasTypeId']);
             unset($gasPrice['currency']);
-            $string .= json_encode($gasPrice);
+            $string .= json_encode($gasPrice) . '<br>';
         }
 
         return $string;
@@ -421,7 +421,7 @@ class GasStation
             unset($gasPrice['datetimestamp']);
             unset($gasPrice['gasTypeId']);
             unset($gasPrice['currency']);
-            $string .= json_encode($gasPrice);
+            $string .= json_encode($gasPrice) . '<br>';
         }
 
     return $string;
