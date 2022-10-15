@@ -101,7 +101,11 @@ class GasStation
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     #[Groups(['read_gas_stations'])]
-    private array $lastGasPrices = [];
+    private ?array $lastGasPrices;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    #[Groups(['read_gas_stations'])]
+    private ?array $previousGasPrices;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $textsearchApiResult;
@@ -115,6 +119,7 @@ class GasStation
         $this->gasPrices = new ArrayCollection();
         $this->gasServices = new ArrayCollection();
         $this->lastGasPrices = [];
+        $this->previousGasPrices = [];
     }
 
     #[Groups(['read_gas_stations'])]
@@ -218,14 +223,33 @@ class GasStation
     /**
      * @return array<mixed>
      */
-    public function getLastGasPrices()
+    public function getLastGasPrices(): array
     {
         return $this->lastGasPrices;
     }
 
     public function setLastGasPrices(GasPrice $gasPrice): self
     {
+        if (array_key_exists($gasPrice->getGasType()->getId(), $this->lastGasPrices) && $this->lastGasPrices[$gasPrice->getGasType()->getId()] !== null) {
+            $this->previousGasPrices[$gasPrice->getGasType()->getId()] = $this->lastGasPrices[$gasPrice->getGasType()->getId()];
+        }
+
         $this->lastGasPrices[$gasPrice->getGasType()->getId()] = $this->hydrateGasPrices($gasPrice);
+
+        return $this;
+    }
+
+    /**
+    * @return array<mixed>
+    */
+    public function getPreviouusGasPrices()
+    {
+        return $this->previousGasPrices;
+    }
+
+    public function setPreviousGasPrices(GasPrice $gasPrice): self
+    {
+        $this->previousGasPrices[$gasPrice->getGasType()->getId()] = $this->hydrateGasPrices($gasPrice);
 
         return $this;
     }
@@ -380,10 +404,27 @@ class GasStation
         $string = '';
         foreach ($this->lastGasPrices as $gasPrice) {
             $gasPrice['date'] = (new DateTime())->setTimestamp($gasPrice['datetimestamp'])->format('Y-m-d h:s:i');
+            unset($gasPrice['datetimestamp']);
+            unset($gasPrice['gasTypeId']);
+            unset($gasPrice['currency']);
             $string .= json_encode($gasPrice);
         }
 
         return $string;
+    }
+
+    public function getPreviousGasPricesAdmin()
+    {
+        $string = '';
+        foreach ($this->previousGasPrices as $gasPrice) {
+            $gasPrice['date'] = (new DateTime())->setTimestamp($gasPrice['datetimestamp'])->format('Y-m-d h:s:i');
+            unset($gasPrice['datetimestamp']);
+            unset($gasPrice['gasTypeId']);
+            unset($gasPrice['currency']);
+            $string .= json_encode($gasPrice);
+        }
+
+    return $string;
     }
 
     public function getPlaceDetailsApiResult(): ?array
