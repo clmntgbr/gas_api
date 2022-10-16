@@ -32,7 +32,7 @@ class GasPriceCrudController extends AbstractCrudController
     {
         return $filters
             ->add('gasType')
-            ->add(TextFilter::new('gasStation'))
+            ->add('gasStation')
             ->add('currency')
             ->add(DateTimeFilter::new('date'))
             ->add(DateTimeFilter::new('createdAt'))
