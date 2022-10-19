@@ -136,6 +136,9 @@ consume-low:
 gas-price-update:
 	$(PHP) bin/console app:gas-price-update
 
+gas-price-year:
+	$(PHP) bin/console app:gas-price-year
+
 gas-station-closed:
 	$(PHP) bin/console app:gas-station-closed
 

@@ -30,6 +30,14 @@ final class GasStationService
 
     public function createGasStation(GasStationId $gasStationId, array $element): void
     {
+        $this->dispatchGasStation(
+            $gasStationId,
+            $element
+        );
+    }
+
+    private function dispatchGasStation(GasStationId $gasStationId, array $element): void
+    {
         $this->messageBus->dispatch(new CreateGasStationMessage(
             $gasStationId,
             $element['@attributes']['pop'] ?? throw new \Exception('Missing pop attributes'),

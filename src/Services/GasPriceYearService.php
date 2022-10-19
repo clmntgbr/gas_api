@@ -8,13 +8,10 @@ use App\Repository\GasTypeRepository;
 use Exception;
 use Safe;
 
-final class GasPriceUpdateService
+final class GasPriceYearService
 {
-    public const PATH = 'public/gas_prices/';
-    public const FILENAME = 'gas-price.zip';
-
     public function __construct(
-        private string $gasPriceInstantUrl,
+        private string $gasPriceYearUrl,
         private GasServiceService $gasServiceService,
         private GasStationService $gasStationService,
         private GasPriceService $gasPriceService,
@@ -22,13 +19,14 @@ final class GasPriceUpdateService
     ) {
     }
 
-    public function update(): void
+    public function update(string $year): void
     {
         $gasTypes = $this->gasTypeRepository->findGasTypeById();
 
         $xmlPath = $this->downloadGasPriceFile(
-            self::PATH,
-            self::FILENAME
+            GasPriceUpdateService::PATH,
+            GasPriceUpdateService::FILENAME,
+            $year
         );
 
         $elements = Safe\simplexml_load_file($xmlPath);
@@ -51,11 +49,11 @@ final class GasPriceUpdateService
         FileSystemService::delete($xmlPath);
     }
 
-    public function downloadGasPriceFile(string $path, string $name): string
+    public function downloadGasPriceFile(string $path, string $name, string $year): string
     {
         FileSystemService::delete($path, $name);
 
-        FileSystemService::download($this->gasPriceInstantUrl, $name, $path);
+        FileSystemService::download(sprintf($this->gasPriceYearUrl, $year), $name, $path);
 
         if (false === FileSystemService::exist($path, $name)) {
             throw new Exception();

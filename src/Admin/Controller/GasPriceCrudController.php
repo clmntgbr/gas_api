@@ -48,40 +48,16 @@ class GasPriceCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        if (Crud::PAGE_NEW === $pageName) {
-            return [];
-        }
-
-        if (Crud::PAGE_EDIT === $pageName) {
-            return [];
-        }
-
-        if (Crud::PAGE_DETAIL === $pageName) {
-            return [
-                IdField::new('id'),
-                AssociationField::new('gasType'),
-                AssociationField::new('gasStation'),
-                IntegerField::new('value'),
-                DateTimeField::new('date')->setFormat('dd/MM/Y HH:mm:ss')->renderAsNativeWidget(),
-                DateTimeField::new('createdAt')->setFormat('dd/MM/Y HH:mm:ss')->renderAsNativeWidget(),
-                DateTimeField::new('updatedAt')->setFormat('dd/MM/Y HH:mm:ss')->renderAsNativeWidget(),
-                AssociationField::new('currency'),
-            ];
-        }
-
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [
-                IdField::new('id'),
-                AssociationField::new('gasType'),
-                AssociationField::new('gasStation'),
-                IntegerField::new('value'),
-                DateTimeField::new('date')->setFormat('dd/MM/Y HH:mm:ss')->renderAsNativeWidget(),
-                DateTimeField::new('createdAt')->setFormat('dd/MM/Y HH:mm:ss')->renderAsNativeWidget(),
-                DateTimeField::new('updatedAt')->setFormat('dd/MM/Y HH:mm:ss')->renderAsNativeWidget(),
-                AssociationField::new('currency'),
-            ];
-        }
-
-        return [];
+        return [
+            IdField::new('id'),
+            AssociationField::new('gasType'),
+            AssociationField::new('gasStation'),
+            IntegerField::new('value'),
+            IntegerField::new('datetimestamp'),
+            DateTimeField::new('date')->setFormat('medium')->renderAsNativeWidget(),
+            DateTimeField::new('createdAt')->setFormat('dd/MM/Y HH:mm:ss')->renderAsNativeWidget(),
+            DateTimeField::new('updatedAt')->setFormat('dd/MM/Y HH:mm:ss')->renderAsNativeWidget(),
+            AssociationField::new('currency'),
+        ];
     }
 }

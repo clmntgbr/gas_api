@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\GasPriceRepository;
 use App\Repository\GasStationRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,17 +14,19 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
-        return $this->render('Home/index.html.twig', [
-        ]);
+        return $this->render('Home/index.html.twig', []);
     }
 
     #[Route('/test', name: 'app_test')]
-    public function test(GasStationRepository $gasStationRepository): Response
+    public function test(GasPriceRepository $gasPriceRepository): Response
     {
-        $gasStations = $gasStationRepository->getGasStationsMap(2.358192, 48.764977, 5000);
-        dd($gasStations);
+        $date = new DateTime('now');
+        $date->setTimestamp(1262286000);
 
-        return $this->render('Home/test.html.twig', [
-        ]);
+        $gg = $gasPriceRepository->findOneBy(['id' => 32173]);
+
+        dd($date, $gg);
+
+        return $this->render('Home/test.html.twig', []);
     }
 }

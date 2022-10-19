@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Common\EntityId\GasStationId;
 use App\Common\EntityId\GasTypeId;
 use App\Message\CreateGasPriceMessage;
+use Safe\DateTimeImmutable;
 use Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpStamp;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -15,7 +16,27 @@ final class GasPriceService
     ) {
     }
 
-    public function createGasPrice(GasStationId $gasStationId, GasTypeId $gasTypeId, ?string $date, ?string $value): void
+    /**
+     * @param array<mixed> $gasTypes
+     */
+    public function createGasPrices(GasStationId $gasStationId, array $element, array $gasTypes): void
+    {
+        foreach ($element['prix'] ?? [] as $item) {
+            $gasTypeId = new GasTypeId($item['@attributes']['id'] ?? 0);
+            $date = $item['@attributes']['maj'] ?? null;
+            $value = $item['@attributes']['valeur'] ?? null;
+
+            if (1 == count($element['prix'])) {
+                $gasTypeId = new GasTypeId($item['id'] ?? 0);
+                $date = $item['maj'] ?? null;
+                $value = $item['valeur'] ?? null;
+            }
+
+            $this->createGasPrice($gasStationId, $gasTypeId, $date, $value);
+        }
+    }
+
+    private function createGasPrice(GasStationId $gasStationId, GasTypeId $gasTypeId, ?string $date, ?string $value): void
     {
         $this->messageBus->dispatch(new CreateGasPriceMessage(
             $gasStationId,
