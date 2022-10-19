@@ -22,7 +22,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: GasStationRepository::class)]
 #[ApiResource(
     collectionOperations: [
-        'get' => ['normalization_context' => ['skip_null_values' => false, 'groups' => ['read_gas_stations']]],
         'get_gas_stations_map' => [
             'method' => 'GET',
             'path' => '/gas_stations/map',
@@ -33,10 +32,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             'normalization_context' => ['skip_null_values' => false, 'groups' => ['read_gas_stations']],
         ],
     ],
-    itemOperations: ['get'],
+    itemOperations: [
+        'get' => ['normalization_context' => ['skip_null_values' => false, 'groups' => ['read_gas_stations']]],
+    ],
 )]
 #[ApiFilter(
-    SearchFilter::class, properties: ['id' => 'exact', 'status' => 'exact']
+    SearchFilter::class,
+    properties: ['id' => 'exact', 'status' => 'exact']
 )]
 #[Vich\Uploadable]
 class GasStation
@@ -125,7 +127,7 @@ class GasStation
     #[Groups(['read_gas_stations'])]
     public function getImagePath(): string
     {
-        return sprintf('/images/%s', $this->getImage()->getName());
+        return sprintf('/images/gas_stations/%s', $this->getImage()->getName());
     }
 
     public function __toString(): string
@@ -240,8 +242,8 @@ class GasStation
     }
 
     /**
-    * @return array<mixed>
-    */
+     * @return array<mixed>
+     */
     public function getPreviouusGasPrices()
     {
         return $this->previousGasPrices;
@@ -424,7 +426,7 @@ class GasStation
             $string .= json_encode($gasPrice) . '<br>';
         }
 
-    return $string;
+        return $string;
     }
 
     public function getPlaceDetailsApiResult(): ?array
