@@ -52,7 +52,6 @@ class GasPriceCrudController extends AbstractCrudController
             AssociationField::new('gasType'),
             AssociationField::new('gasStation'),
             IntegerField::new('value'),
-            IntegerField::new('datetimestamp'),
             DateTimeField::new('date'),
             DateTimeField::new('createdAt')->setFormat('dd/MM/Y HH:mm:ss')->renderAsNativeWidget(),
             DateTimeField::new('updatedAt')->setFormat('dd/MM/Y HH:mm:ss')->renderAsNativeWidget(),
