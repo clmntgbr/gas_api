@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Services\GasPriceUpdateService;
 use App\Services\GasPriceYearService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

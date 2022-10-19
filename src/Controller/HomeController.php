@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\GasPriceRepository;
-use App\Repository\GasStationRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

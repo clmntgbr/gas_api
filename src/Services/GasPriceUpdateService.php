@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\Common\EntityId\GasStationId;
-use App\Common\EntityId\GasTypeId;
 use App\Repository\GasTypeRepository;
 use Exception;
 use Safe;

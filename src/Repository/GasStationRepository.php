@@ -111,38 +111,40 @@ class GasStationRepository extends ServiceEntityRepository
 
     private function createGasTypesFilter($filters)
     {
-        $query = "";
-        if (array_key_exists('gas_type', $filters ?? []) && $filters['gas_type'] !== "") {
+        $query = '';
+        if (array_key_exists('gas_type', $filters ?? []) && '' !== $filters['gas_type']) {
             $gasTypes = explode(',', $filters['gas_type']);
-            $query = " AND (";
+            $query = ' AND (';
             foreach ($gasTypes as $gasType) {
-                $query .= "JSON_KEYS(s.last_gas_prices) LIKE '%" . trim($gasType) . "%' OR ";
+                $query .= "JSON_KEYS(s.last_gas_prices) LIKE '%".trim($gasType)."%' OR ";
             }
             $query = mb_substr($query, 0, -4);
-            $query .= ")";
+            $query .= ')';
         }
+
         return $query;
     }
 
     private function createGasServicesFilter($filters)
     {
-        $query = "";
-        if (array_key_exists('gas_service', $filters ?? []) && $filters['gas_service'] !== "") {
+        $query = '';
+        if (array_key_exists('gas_service', $filters ?? []) && '' !== $filters['gas_service']) {
             $gasServices = explode(',', $filters['gas_service']);
-            $query = " AND (";
+            $query = ' AND (';
             foreach ($gasServices as $gasService) {
-                $query .= "`gas_services` LIKE '%" . trim($gasService) . "%' OR ";
+                $query .= "`gas_services` LIKE '%".trim($gasService)."%' OR ";
             }
             $query = mb_substr($query, 0, -4);
-            $query .= ")";
+            $query .= ')';
         }
+
         return $query;
     }
 
     private function createGasStationsCitiesFilter($filters)
     {
-        $query = "";
-        if (array_key_exists('city', $filters ?? []) && $filters['city'] !== "") {
+        $query = '';
+        if (array_key_exists('city', $filters ?? []) && '' !== $filters['city']) {
             $cities = $filters['city'];
             $query = " AND a.postal_code IN ($cities)";
         }
@@ -152,8 +154,8 @@ class GasStationRepository extends ServiceEntityRepository
 
     private function createGasStationsDepartmentsFilter($filters)
     {
-        $query = "";
-        if (array_key_exists('department', $filters ?? []) && $filters['department'] !== "") {
+        $query = '';
+        if (array_key_exists('department', $filters ?? []) && '' !== $filters['department']) {
             $departments = $filters['department'];
             $query = " AND SUBSTRING(a.postal_code, 1, 2) IN ($departments)";
         }

@@ -232,7 +232,7 @@ class GasStation
 
     public function setLastGasPrices(GasPrice $gasPrice): self
     {
-        if (array_key_exists($gasPrice->getGasType()->getId(), $this->lastGasPrices) && $this->lastGasPrices[$gasPrice->getGasType()->getId()] !== null) {
+        if (array_key_exists($gasPrice->getGasType()->getId(), $this->lastGasPrices) && null !== $this->lastGasPrices[$gasPrice->getGasType()->getId()]) {
             $this->previousGasPrices[$gasPrice->getGasType()->getId()] = $this->lastGasPrices[$gasPrice->getGasType()->getId()];
         }
 
@@ -409,7 +409,7 @@ class GasStation
             unset($gasPrice['datetimestamp']);
             unset($gasPrice['gasTypeId']);
             unset($gasPrice['currency']);
-            $string .= json_encode($gasPrice) . '<br>';
+            $string .= json_encode($gasPrice).'<br>';
         }
 
         return $string;
@@ -423,7 +423,7 @@ class GasStation
             unset($gasPrice['datetimestamp']);
             unset($gasPrice['gasTypeId']);
             unset($gasPrice['currency']);
-            $string .= json_encode($gasPrice) . '<br>';
+            $string .= json_encode($gasPrice).'<br>';
         }
 
         return $string;
