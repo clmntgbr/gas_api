@@ -77,7 +77,7 @@ class Address
 
     public function getVicinity(): ?string
     {
-        return $this->vicinity;
+        return htmlspecialchars_decode($this->vicinity);
     }
 
     public function setVicinity(?string $vicinity): self
@@ -89,7 +89,7 @@ class Address
 
     public function getStreet(): ?string
     {
-        return $this->street;
+        return htmlspecialchars_decode($this->street);
     }
 
     public function setStreet(string $street): self
@@ -113,7 +113,7 @@ class Address
 
     public function getCity(): ?string
     {
-        return $this->city;
+        return htmlspecialchars_decode($this->city);
     }
 
     public function setCity(string $city): self

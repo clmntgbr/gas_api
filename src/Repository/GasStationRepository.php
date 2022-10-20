@@ -93,7 +93,7 @@ class GasStationRepository extends ServiceEntityRepository
   
                     FROM gas_station s 
                     INNER JOIN address a ON s.address_id = a.id
-                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL AND s.status != 'closed'  $gasTypeFilter $cityFilter $departmentFilter
+                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL AND s.status = 'waiting_validation'  $gasTypeFilter $cityFilter $departmentFilter
                     HAVING `distance` < $radius $gasServiceFilter
                     ORDER BY `distance` ASC LIMIT 50;
         ";
@@ -116,7 +116,7 @@ class GasStationRepository extends ServiceEntityRepository
             $gasTypes = explode(',', $filters['gas_type']);
             $query = ' AND (';
             foreach ($gasTypes as $gasType) {
-                $query .= "JSON_KEYS(s.last_gas_prices) LIKE '%".trim($gasType)."%' OR ";
+                $query .= "JSON_KEYS(s.last_gas_prices) LIKE '%" . trim($gasType) . "%' OR ";
             }
             $query = mb_substr($query, 0, -4);
             $query .= ')';
@@ -132,7 +132,7 @@ class GasStationRepository extends ServiceEntityRepository
             $gasServices = explode(',', $filters['gas_service']);
             $query = ' AND (';
             foreach ($gasServices as $gasService) {
-                $query .= "`gas_services` LIKE '%".trim($gasService)."%' OR ";
+                $query .= "`gas_services` LIKE '%" . trim($gasService) . "%' OR ";
             }
             $query = mb_substr($query, 0, -4);
             $query .= ')';

@@ -190,7 +190,7 @@ class GasStation
 
     public function getName(): ?string
     {
-        return $this->name;
+        return htmlspecialchars_decode($this->name);
     }
 
     public function setName(?string $name): self

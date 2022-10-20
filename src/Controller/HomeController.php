@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\GasPriceRepository;
+use App\Repository\GasStationRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,14 @@ class HomeController extends AbstractController
     }
 
     #[Route('/test', name: 'app_test')]
-    public function test(GasPriceRepository $gasPriceRepository): Response
+    public function test(GasPriceRepository $gasPriceRepository, GasStationRepository $gasStationRepository): Response
     {
-        $date = new DateTime('now');
-        $date->setTimestamp(1262286000);
+        $gg = $gasStationRepository->findOneBy(['id' => 94400003]);
 
-        $gg = $gasPriceRepository->findOneBy(['id' => 32173]);
-
-        dd($date, $gg);
-
+        dump($gg);
+        $gg->setName(htmlspecialchars_decode($gg->getName()));
+        dump($gg);
+        die;
         return $this->render('Home/test.html.twig', []);
     }
 }

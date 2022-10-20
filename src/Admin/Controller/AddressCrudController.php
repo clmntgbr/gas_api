@@ -37,18 +37,17 @@ class AddressCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
+            ->add('id')
             ->add('city')
             ->add('region')
             ->add('postalCode')
-            ->add('country')
-            ->add(DateTimeFilter::new('createdAt'))
-            ->add(DateTimeFilter::new('updatedAt'));
+            ->add('country');
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IdField::new('id')->hideOnForm(),
             TextField::new('vicinity'),
             TextField::new('street'),
             TextField::new('number'),
@@ -56,14 +55,14 @@ class AddressCrudController extends AbstractCrudController
             TextField::new('region'),
             TextField::new('postalCode'),
             TextField::new('country'),
-            TextField::new('longitude'),
-            TextField::new('latitude'),
+            TextField::new('longitude')->hideOnIndex(),
+            TextField::new('latitude')->hideOnIndex(),
             DateTimeField::new('createdAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
-                ->renderAsNativeWidget(),
+                ->renderAsNativeWidget()->hideOnIndex()->setDisabled(),
             DateTimeField::new('updatedAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
-                ->renderAsNativeWidget(),
+                ->renderAsNativeWidget()->hideOnIndex()->setDisabled(),
         ];
     }
 }

@@ -96,13 +96,13 @@ final class UpdateGasStationAddressMessageHandler implements MessageHandlerInter
 
         if (isset($values[5]) && isset($values[6]) && isset($values[7]) && isset($values[8])) {
             $gasStation
-                ->setName(ucwords(strtolower(trim($values[5]))))
-                ->setCompany(ucwords(strtolower(trim($values[6]))));
+                ->setName(htmlspecialchars_decode(ucwords(strtolower(trim($values[5])))))
+                ->setCompany(htmlspecialchars_decode(ucwords(strtolower(trim($values[6])))));
 
             $address = $gasStation->getAddress();
             $address
-                ->setStreet(sprintf('%s, %s, France', trim($values[7]), trim($values[8])))
-                ->setVicinity(sprintf('%s, %s, France', trim($values[7]), trim($values[8])));
+                ->setStreet(htmlspecialchars_decode(sprintf('%s, %s, France', trim($values[7]), trim($values[8]))))
+                ->setVicinity(htmlspecialchars_decode(sprintf('%s, %s, France', trim($values[7]), trim($values[8]))));
 
             $gasStation->setStatus(GasStationStatusReference::FOUND_ON_GOV_MAP);
         }
