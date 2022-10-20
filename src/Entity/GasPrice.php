@@ -3,15 +3,30 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\ApiResource\Controller\GasPriceByYearAndGasType;
 use App\Repository\GasPriceRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Context;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 #[ORM\Entity(repositoryClass: GasPriceRepository::class)]
 #[ApiResource(
-    collectionOperations: ['get'],
+    collectionOperations: [
+        'get',
+        'get_gas_price_year_gas_type' => [
+            'method' => 'GET',
+            'path' => '/gas_prices/year',
+            'controller' => GasPriceByYearAndGasType::class,
+            'pagination_enabled' => false,
+            'deserialize' => false,
+            'read' => false,
+            'normalization_context' => ['skip_null_values' => false, 'groups' => ['read_gas_prices']],
+        ],
+    ],
     itemOperations: ['get'],
 )]
 class GasPrice
@@ -24,12 +39,16 @@ class GasPrice
     private int $id;
 
     #[ORM\Column(type: Types::INTEGER)]
+    #[Groups(['read_gas_prices'])]
     private int $value;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[Groups(['read_gas_prices'])]
+    #[Context([DateTimeNormalizer::FORMAT_KEY => 'd/m/Y h:i:s'])]
     private DateTimeImmutable $date;
 
     #[ORM\Column(type: Types::INTEGER)]
+    #[Groups(['read_gas_prices'])]
     private int $dateTimestamp;
 
     #[ORM\ManyToOne(targetEntity: GasStation::class, inversedBy: 'gasPrices')]
@@ -38,10 +57,12 @@ class GasPrice
 
     #[ORM\ManyToOne(targetEntity: GasType::class)]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read_gas_prices'])]
     private GasType $gasType;
 
     #[ORM\ManyToOne(targetEntity: Currency::class)]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read_gas_prices'])]
     private Currency $currency;
 
     public function __toString(): string

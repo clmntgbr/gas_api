@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\ApiResource\Controller\GasStationsMap;
+use App\ApiResource\Controller\GasStationsYear;
 use App\Repository\GasStationRepository;
 use DateTime;
 use DateTimeImmutable;
@@ -409,7 +410,7 @@ class GasStation
             unset($gasPrice['datetimestamp']);
             unset($gasPrice['gasTypeId']);
             unset($gasPrice['currency']);
-            $string .= json_encode($gasPrice).'<br>';
+            $string .= json_encode($gasPrice) . '<br>';
         }
 
         return $string;
@@ -423,7 +424,7 @@ class GasStation
             unset($gasPrice['datetimestamp']);
             unset($gasPrice['gasTypeId']);
             unset($gasPrice['currency']);
-            $string .= json_encode($gasPrice).'<br>';
+            $string .= json_encode($gasPrice) . '<br>';
         }
 
         return $string;

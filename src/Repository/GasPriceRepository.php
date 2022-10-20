@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\GasPrice;
+use App\Entity\GasStation;
+use App\Entity\GasType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,28 +41,20 @@ class GasPriceRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return GasPrice[] Returns an array of GasPrice objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('g.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?GasPrice
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * @return GasPrice[] Returns an array of GasPrice objects
+     */
+    public function findGasPricesByYear(GasStation $gasStation, GasType $gasType, string $year): array
+    {
+        return $this->createQueryBuilder('g')
+            ->innerJoin('g.gasType', 't')
+            ->innerJoin('g.gasStation', 's')
+            ->where('t.id = :gasTypeId AND s.id = :gasStationId')
+            ->andWhere(sprintf("g.date >= '%s' AND g.date <= '%s'", "$year-01-01 00:00:00", "$year-12-31 23:59:59"))
+            ->setParameter('gasTypeId', $gasType->getId())
+            ->setParameter('gasStationId', $gasStation->getId())
+            ->orderBy('g.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -22,15 +22,14 @@ class GasType
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\Column(type: Types::INTEGER)]
-    #[Groups(['read'])]
     private int $id;
 
     #[ORM\Column(type: Types::STRING, length: 50)]
-    #[Groups(['read'])]
+    #[Groups(['read_gas_prices'])]
     private string $reference;
 
     #[ORM\Column(type: Types::STRING, length: 50)]
-    #[Groups(['read'])]
+    #[Groups(['read_gas_prices'])]
     private string $label;
 
     public function __construct()
