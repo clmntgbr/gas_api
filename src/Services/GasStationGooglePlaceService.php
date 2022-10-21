@@ -20,7 +20,7 @@ final class GasStationGooglePlaceService
 
     public function update(): void
     {
-        $gasStations = $this->gasStationRepository->findGasStationNotClosed();
+        $gasStations = $this->gasStationRepository->findGasStationFoundOnGovMap();
 
         foreach ($gasStations as $gasStation) {
             if (GasStationStatusReference::FOUND_ON_GOV_MAP === $gasStation->getStatus()) {

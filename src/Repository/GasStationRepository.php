@@ -49,6 +49,19 @@ class GasStationRepository extends ServiceEntityRepository
             ->select('s')
             ->where('s.closedAt is null')
             ->orderBy('s.updatedAt', 'DESC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    /**
+     * @return GasStation[]|null
+     */
+    public function findGasStationFoundOnGovMap()
+    {
+        $query = $this->createQueryBuilder('s')
+            ->select('s')
+            ->where("s.status = 'found_on_gov_map'")
             ->setMaxResults(15)
             ->getQuery();
 
@@ -93,7 +106,7 @@ class GasStationRepository extends ServiceEntityRepository
   
                     FROM gas_station s 
                     INNER JOIN address a ON s.address_id = a.id
-                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL AND s.status = 'waiting_validation'  $gasTypeFilter $cityFilter $departmentFilter
+                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL AND s.status != 'closed'  $gasTypeFilter $cityFilter $departmentFilter
                     HAVING `distance` < $radius $gasServiceFilter
                     ORDER BY `distance` ASC LIMIT 50;
         ";
