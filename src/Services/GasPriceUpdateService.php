@@ -38,9 +38,12 @@ final class GasPriceUpdateService
             $gasStationId = $this->gasStationService->getGasStationId($element);
 
             if (!in_array(substr($gasStationId->getId(), 0, 2), ['94'])) {
-                // if (!in_array(substr($gasStationId->getId(), 0, 2), ['94', '75', '95', '92', '91', '93'])) {
                 continue;
             }
+
+            // if (!in_array($gasStationId->getId(), ['94550001'])) {
+            //     continue;
+            // }
 
             $this->gasStationService->createGasStation($gasStationId, $element);
             $this->gasServiceService->createGasService($gasStationId, $element);

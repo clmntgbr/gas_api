@@ -39,6 +39,10 @@ final class GasPriceYearService
                 continue;
             }
 
+            // if (!in_array($gasStationId->getId(), ['94550001'])) {
+            //     continue;
+            // }
+
             $this->gasStationService->createGasStation($gasStationId, $element);
             $this->gasServiceService->createGasService($gasStationId, $element);
             $this->gasPriceService->createGasPrices($gasStationId, $element, $gasTypes);

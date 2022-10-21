@@ -103,11 +103,9 @@ class GasStation
     private EmbeddedFile $image;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
-    #[Groups(['read_gas_stations'])]
     private ?array $lastGasPrices;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
-    #[Groups(['read_gas_stations'])]
     private ?array $previousGasPrices;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
@@ -129,6 +127,18 @@ class GasStation
     public function getImagePath(): string
     {
         return sprintf('/images/gas_stations/%s', $this->getImage()->getName());
+    }
+
+    #[Groups(['read_gas_stations'])]
+    public function getLastPrices(): array
+    {
+        return array_combine(array_slice([0, 1, 2, 3, 4, 5], 0, count($this->lastGasPrices)), $this->lastGasPrices);
+    }
+
+    #[Groups(['read_gas_stations'])]
+    public function getPreviousPrices(): array
+    {
+        return array_combine(array_slice([0, 1, 2, 3, 4, 5], 0, count($this->previousGasPrices)), $this->previousGasPrices);
     }
 
     public function __toString(): string
@@ -233,19 +243,35 @@ class GasStation
 
     public function setLastGasPrices(GasPrice $gasPrice): self
     {
+        $value = 'equal';
+
         if (array_key_exists($gasPrice->getGasType()->getId(), $this->lastGasPrices) && null !== $this->lastGasPrices[$gasPrice->getGasType()->getId()]) {
             $this->previousGasPrices[$gasPrice->getGasType()->getId()] = $this->lastGasPrices[$gasPrice->getGasType()->getId()];
+            $value = $this->getGasPriceDifference($gasPrice);
         }
 
-        $this->lastGasPrices[$gasPrice->getGasType()->getId()] = $this->hydrateGasPrices($gasPrice);
+        $this->lastGasPrices[$gasPrice->getGasType()->getId()] = $this->hydrateGasPrices($gasPrice, $value);
 
         return $this;
+    }
+
+    private function getGasPriceDifference(GasPrice $gasPrice)
+    {
+        if ($this->previousGasPrices[$gasPrice->getGasType()->getId()]['gasPriceValue'] > $gasPrice->getValue()) {
+            return 'lower';
+        }
+
+        if ($this->previousGasPrices[$gasPrice->getGasType()->getId()]['gasPriceValue'] < $gasPrice->getValue()) {
+            return 'higher';
+        }
+
+        return 'equal';
     }
 
     /**
      * @return array<mixed>
      */
-    public function getPreviouusGasPrices()
+    public function getPreviousGasPrices()
     {
         return $this->previousGasPrices;
     }
@@ -266,7 +292,7 @@ class GasStation
         return $this;
     }
 
-    private function hydrateGasPrices(GasPrice $gasPrice)
+    private function hydrateGasPrices(GasPrice $gasPrice, string $value = 'equal')
     {
         return [
             'id' => $gasPrice->getId(),
@@ -275,6 +301,7 @@ class GasStation
             'gasTypeId' => $gasPrice->getGasType()->getId(),
             'gasTypeLabel' => $gasPrice->getGasType()->getLabel(),
             'currency' => $gasPrice->getCurrency()->getLabel(),
+            'n-1' => $value,
         ];
     }
 
