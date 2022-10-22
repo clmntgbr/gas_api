@@ -89,7 +89,7 @@ class GasStation
     #[ORM\Column(type: Types::JSON)]
     private array $element = [];
 
-    #[ORM\OneToMany(mappedBy: 'gasStation', targetEntity: GasPrice::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'gasStation', targetEntity: GasPrice::class, cascade: ['persist', 'remove'], fetch: 'LAZY')]
     private Collection $gasPrices;
 
     #[ORM\ManyToMany(targetEntity: GasService::class, mappedBy: 'gasStations', cascade: ['persist', 'remove'])]
@@ -113,6 +113,9 @@ class GasStation
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $placeDetailsApiResult;
+
+    #[Groups(['read_gas_stations'])]
+    private bool $hasLowPrices = false;
 
     public function __construct()
     {
@@ -252,6 +255,13 @@ class GasStation
 
         $this->lastGasPrices[$gasPrice->getGasType()->getId()] = $this->hydrateGasPrices($gasPrice, $value);
 
+        return $this;
+    }
+
+    public function addLastGasPrices(array $gasPrice)
+    {
+        $this->lastGasPrices = $gasPrice;
+        
         return $this;
     }
 
@@ -484,5 +494,17 @@ class GasStation
     public function getGooglePlaceId(): ?string
     {
         return $this->googlePlace?->getPlaceId();
+    }
+
+    public function isHasLowPrices(): ?bool
+    {
+        return $this->hasLowPrices;
+    }
+
+    public function setHasLowPrices(bool $hasLowPrices): self
+    {
+        $this->hasLowPrices = $hasLowPrices;
+
+        return $this;
     }
 }

@@ -4,6 +4,7 @@ namespace App\ApiResource\Controller;
 
 use App\Dto\GasStationsMapDto;
 use App\Repository\GasStationRepository;
+use App\Services\GasStationsMapService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -14,7 +15,8 @@ class GasStationsMap extends AbstractController
     public static string $operationName = 'get_gas_stations_map';
 
     public function __construct(
-        private GasStationRepository $gasStationRepository
+        private GasStationRepository $gasStationRepository,
+        private GasStationsMapService $gasStationsMapService
     ) {
     }
 
@@ -25,7 +27,8 @@ class GasStationsMap extends AbstractController
         $radius = $request->query->get('radius') ?? 10000;
 
         $gasStations = $this->gasStationRepository->getGasStationsMap($longitude, $latitude, $radius, $request->query->all());
+        // dd($gasStations);
 
-        return new GasStationsMapDto($gasStations);
+        return $this->gasStationsMapService->update($gasStations);
     }
 }

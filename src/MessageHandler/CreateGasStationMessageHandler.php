@@ -54,11 +54,14 @@ final class CreateGasStationMessageHandler implements MessageHandlerInterface
             ->setStreet($message->getStreet())
             ->setVicinity(sprintf('%s, %s %s, %s', $message->getStreet(), $message->getCp(), $message->getCity(), $message->getCountry()));
 
+        $element = $message->getElement();
+        unset($element['prix']);
+
         $gasStation = new GasStation();
         $gasStation
             ->setId($message->getGasStationId()->getId())
             ->setPop($message->getPop())
-            ->setElement($message->getElement())
+            ->setElement($element)
             ->setAddress($address)
             ->setGooglePlace(new GooglePlace())
             ->setStatus(GasStationStatusReference::CREATED);
@@ -72,7 +75,7 @@ final class CreateGasStationMessageHandler implements MessageHandlerInterface
         $gasStation->getImage()->setMimeType('jpg');
         $gasStation->getImage()->setSize(86110);
 
-        $this->isGasStationClosed($message->getElement(), $gasStation);
+        $this->isGasStationClosed($element, $gasStation);
 
         if (null !== $gasStation->getClosedAt()) {
             $gasStation->setStatus(GasStationStatusReference::CLOSED);
