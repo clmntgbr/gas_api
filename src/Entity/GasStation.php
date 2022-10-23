@@ -261,7 +261,7 @@ class GasStation
     public function addLastGasPrices(array $gasPrice)
     {
         $this->lastGasPrices = $gasPrice;
-        
+
         return $this;
     }
 
@@ -436,7 +436,7 @@ class GasStation
             return end($this->statuses);
         }
 
-        return $this->status[count($this->statuses) - 2];
+        return $this->statuses[count($this->statuses) - 2];
     }
 
     public function getLastGasPricesAdmin()
