@@ -64,7 +64,7 @@ class GasStationCrudController extends AbstractCrudController
             TextField::new('name'),
             TextField::new('company'),
             TextField::new('googlePlaceId')->onlyOnIndex(),
-            ArrayField::new('status')->onlyOnIndex(),
+            TextField::new('status'),
             ArrayField::new('statuses')->hideOnIndex(),
             Field::new('lastGasPricesAdmin')->hideOnIndex()->hideOnForm(),
             Field::new('previousGasPricesAdmin')->hideOnIndex()->hideOnForm(),

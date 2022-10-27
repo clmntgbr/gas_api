@@ -430,6 +430,13 @@ class GasStation
         return $this;
     }
 
+    public function setInitStatuses(array $status): self
+    {
+        $this->statuses = $status;
+
+        return $this;
+    }
+
     public function getPreviousStatus(): ?string
     {
         if (count($this->statuses) <= 1) {
