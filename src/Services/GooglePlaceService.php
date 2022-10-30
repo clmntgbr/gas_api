@@ -36,6 +36,8 @@ final class GooglePlaceService
         $gasStation->setPlaceDetailsApiResult($content);
 
         if ($this->checkStatus($gasStation, $content)) {
+            $gasStation
+                ->setName(htmlspecialchars_decode(ucwords(strtolower(trim($content['result']['name'] ?? null)))));
             $this->hydratePlaceDetails($gasStation, $content['result']);
         }
 

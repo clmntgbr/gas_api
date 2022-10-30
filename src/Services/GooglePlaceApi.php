@@ -17,7 +17,7 @@ class GooglePlaceApi
     public function placeTextsearch(GasStation $gasStation)
     {
         $client = new Client();
-        $response = $client->request('GET', sprintf($this->placeTextsearchUrl, $this->googleApiKey, $gasStation->getAddress()->getLatitude(), $gasStation->getAddress()->getLongitude()));
+        $response = $client->request('GET', sprintf($this->placeTextsearchUrl, $gasStation->getAddress()->getVicinity(), $this->googleApiKey));
 
         return $response;
     }

@@ -57,17 +57,33 @@ class GasPrice
 
     #[ORM\ManyToOne(targetEntity: GasType::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read_gas_prices'])]
     private GasType $gasType;
 
     #[ORM\ManyToOne(targetEntity: Currency::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read_gas_prices'])]
     private Currency $currency;
 
     public function __toString(): string
     {
         return (string) $this->getId();
+    }
+
+    #[Groups(['read_gas_prices'])]
+    public function getMonth(): int
+    {
+        return (int)$this->date->format('m');
+    }
+
+    #[Groups(['read_gas_prices'])]
+    public function getDay(): int
+    {
+        return (int)$this->date->format('d');
+    }
+
+    #[Groups(['read_gas_prices'])]
+    public function getYear(): int
+    {
+        return (int)$this->date->format('Y');
     }
 
     public function getId(): ?int

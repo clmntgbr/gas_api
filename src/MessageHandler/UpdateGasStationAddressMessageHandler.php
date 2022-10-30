@@ -42,7 +42,7 @@ final class UpdateGasStationAddressMessageHandler implements MessageHandlerInter
         }
 
         $this->getGasStationInformationFromGovernment($gasStation);
-        $this->apiAddressService->update($gasStation);
+        // $this->apiAddressService->update($gasStation);
 
         $this->em->persist($gasStation);
         $this->em->flush();
@@ -78,14 +78,14 @@ final class UpdateGasStationAddressMessageHandler implements MessageHandlerInter
                 $options
             );
         } catch (GuzzleException $e) {
-            $gasStation->setStatus(GasStationStatusReference::FOUND_ON_GOV_MAP);
+            $gasStation->setStatus(GasStationStatusReference::NOT_FOUND_ON_GOV_MAP);
+            return;
         }
 
         $content = $response->getBody()->getContents();
 
         if ('No route found' === $content) {
-            $gasStation->setStatus(GasStationStatusReference::FOUND_ON_GOV_MAP);
-
+            $gasStation->setStatus(GasStationStatusReference::NOT_FOUND_ON_GOV_MAP);
             return;
         }
 
