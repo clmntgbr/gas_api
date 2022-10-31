@@ -3,6 +3,7 @@
 namespace App\ApiResource\Controller;
 
 use App\Dto\GasStationsMapDto;
+use App\Entity\GasPrice;
 use App\Entity\GasStation;
 use App\Repository\GasPriceRepository;
 use App\Repository\GasStationRepository;
@@ -49,6 +50,16 @@ class GasPriceByYearAndGasType extends AbstractController
             throw new Exception('Wrong `gas_type_id` parameter.');
         }
 
-        return $this->gasPriceRepository->findGasPricesByYear($gasStation, $gasType, $year);
+        $datas = [];
+
+        $gasPrices = $this->gasPriceRepository->findGasPricesByYear($gasStation, $gasType, $year);
+
+        foreach ($gasPrices as $gasPrice) {
+            if (array_key_exists(0, $gasPrice) && $gasPrice[0] instanceof GasPrice) {
+                $datas[] = $gasPrice[0];
+            }
+        }
+
+        return $datas;
     }
 }

@@ -41,12 +41,10 @@ class GasPriceRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @return GasPrice[] Returns an array of GasPrice objects
-     */
     public function findGasPricesByYear(GasStation $gasStation, GasType $gasType, string $year): array
     {
         return $this->createQueryBuilder('g')
+            ->select('g, WEEK(g.date) AS week')
             ->innerJoin('g.gasType', 't')
             ->innerJoin('g.gasStation', 's')
             ->where('t.id = :gasTypeId AND s.id = :gasStationId')
@@ -54,6 +52,7 @@ class GasPriceRepository extends ServiceEntityRepository
             ->setParameter('gasTypeId', $gasType->getId())
             ->setParameter('gasStationId', $gasStation->getId())
             ->orderBy('g.date', 'ASC')
+            ->groupBy('week')
             ->getQuery()
             ->getResult();
     }

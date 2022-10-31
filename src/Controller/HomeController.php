@@ -4,13 +4,22 @@ namespace App\Controller;
 
 use App\Repository\GasPriceRepository;
 use App\Repository\GasStationRepository;
+use App\Repository\GasTypeRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
+    public function __construct(
+        private GasStationRepository $gasStationRepository,
+        private GasPriceRepository $gasPriceRepository,
+        private GasTypeRepository $gasTypeRepository
+    ) {
+    }
+
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
@@ -18,14 +27,18 @@ class HomeController extends AbstractController
     }
 
     #[Route('/test', name: 'app_test')]
-    public function test(GasPriceRepository $gasPriceRepository, GasStationRepository $gasStationRepository): Response
+    public function test(GasStationRepository $gasStationRepository, EntityManagerInterface $em): Response
     {
-        $gg = $gasStationRepository->findOneBy(['id' => 94400003]);
+        $gg = $gasStationRepository->findOneBy(['id' => 94150006]);
 
-        dump($gg);
-        $gg->setName(htmlspecialchars_decode($gg->getName()));
-        dump($gg);
-        die;
+        $gasType = $this->gasTypeRepository->findOneBy(['id' => 1]);
+        if (null === $gasType) {
+        }
+
+        dd($this->gasPriceRepository->findGasPricesByYear($gg, $gasType, 2020));
+
+        dd($gg);
+
         return $this->render('Home/test.html.twig', []);
     }
 }
