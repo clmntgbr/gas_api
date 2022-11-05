@@ -44,7 +44,8 @@ class GasPriceRepository extends ServiceEntityRepository
     public function findGasPricesByYear(GasStation $gasStation, GasType $gasType, string $year): array
     {
         return $this->createQueryBuilder('g')
-            ->select('g, WEEK(g.date) AS week')
+            ->select('g')
+            ->addSelect('WEEK(g.date) AS week')
             ->innerJoin('g.gasType', 't')
             ->innerJoin('g.gasStation', 's')
             ->where('t.id = :gasTypeId AND s.id = :gasStationId')
