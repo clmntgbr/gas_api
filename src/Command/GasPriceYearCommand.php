@@ -29,11 +29,13 @@ class GasPriceYearCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $helper = $this->getHelper('question');
-        $question = new Question('Which year to insert ? ', '2007');
+        $questionYear = new Question('Which year to insert ? ', '2007');
+        $questionDepartment = new Question('Which department to insert ? ', '94');
 
-        $year = $helper->ask($input, $output, $question);
+        $year = $helper->ask($input, $output, $questionYear);
+        $department = $helper->ask($input, $output, $questionDepartment);
 
-        $this->gasPriceYearService->update($year);
+        $this->gasPriceYearService->update($year, $department);
 
         return Command::SUCCESS;
     }

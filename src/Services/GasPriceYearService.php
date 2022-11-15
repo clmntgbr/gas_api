@@ -12,15 +12,12 @@ final class GasPriceYearService
         private string $gasPriceYearUrl,
         private GasServiceService $gasServiceService,
         private GasStationService $gasStationService,
-        private GasPriceService $gasPriceService,
-        private GasTypeRepository $gasTypeRepository
+        private GasPriceService $gasPriceService
     ) {
     }
 
-    public function update(string $year): void
+    public function update(string $year, string $department): void
     {
-        $gasTypes = $this->gasTypeRepository->findGasTypeById();
-
         $xmlPath = $this->downloadGasPriceFile(
             GasPriceUpdateService::PATH,
             GasPriceUpdateService::FILENAME,
@@ -35,17 +32,13 @@ final class GasPriceYearService
 
             $gasStationId = $this->gasStationService->getGasStationId($element);
 
-            if (!in_array(substr($gasStationId->getId(), 0, 2), ['94'])) {
+            if (!in_array(substr($gasStationId->getId(), 0, 2), [$department])) {
                 continue;
             }
 
-            // if (!in_array($gasStationId->getId(), ['94550001'])) {
-            //     continue;
-            // }
-
             $this->gasStationService->createGasStation($gasStationId, $element);
             $this->gasServiceService->createGasService($gasStationId, $element);
-            $this->gasPriceService->createGasPrices($gasStationId, $element, $gasTypes);
+            $this->gasPriceService->createGasPricesYear($gasStationId, $element);
         }
 
         FileSystemService::delete($xmlPath);

@@ -15,15 +15,12 @@ final class GasPriceUpdateService
         private string $gasPriceInstantUrl,
         private GasServiceService $gasServiceService,
         private GasStationService $gasStationService,
-        private GasPriceService $gasPriceService,
-        private GasTypeRepository $gasTypeRepository
+        private GasPriceService $gasPriceService
     ) {
     }
 
     public function update(): void
     {
-        $gasTypes = $this->gasTypeRepository->findGasTypeById();
-
         $xmlPath = $this->downloadGasPriceFile(
             self::PATH,
             self::FILENAME
@@ -47,7 +44,7 @@ final class GasPriceUpdateService
 
             $this->gasStationService->createGasStation($gasStationId, $element);
             $this->gasServiceService->createGasService($gasStationId, $element);
-            $this->gasPriceService->createGasPrices($gasStationId, $element, $gasTypes);
+            $this->gasPriceService->createGasPrices($gasStationId, $element);
         }
 
         FileSystemService::delete($xmlPath);
