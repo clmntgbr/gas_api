@@ -45,7 +45,6 @@ class GasPriceRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('g')
             ->select('g')
-            ->addSelect('WEEK(g.date) AS week')
             ->innerJoin('g.gasType', 't')
             ->innerJoin('g.gasStation', 's')
             ->where('t.id = :gasTypeId AND s.id = :gasStationId')
@@ -53,7 +52,16 @@ class GasPriceRepository extends ServiceEntityRepository
             ->setParameter('gasTypeId', $gasType->getId())
             ->setParameter('gasStationId', $gasStation->getId())
             ->orderBy('g.date', 'ASC')
-            ->groupBy('week')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findGasPricesByMonth(string $month, string $year): array
+    {
+        return $this->createQueryBuilder('g')
+            ->select('g')
+            ->andWhere(sprintf("g.date >= '%s' AND g.date <= '%s'", "$year-$month-01 00:00:00", "$year-$month-31 23:59:59"))
+            ->orderBy('g.date', 'ASC')
             ->getQuery()
             ->getResult();
     }

@@ -2,13 +2,8 @@
 
 namespace App\Services;
 
-use App\Common\EntityId\GasStationId;
-use App\Common\EntityId\GasTypeId;
 use App\Dto\GasStationsMapDto;
 use App\Entity\GasStation;
-use App\Message\CreateGasPriceMessage;
-use Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpStamp;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 final class GasStationsMapService
 {

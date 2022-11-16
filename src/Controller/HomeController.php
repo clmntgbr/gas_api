@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\GasPriceRepository;
 use App\Repository\GasStationRepository;
 use App\Repository\GasTypeRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

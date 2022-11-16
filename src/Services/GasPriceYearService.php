@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Repository\GasTypeRepository;
 use Exception;
 use Safe;
 
@@ -46,19 +45,19 @@ final class GasPriceYearService
 
     public function downloadGasPriceFile(string $path, string $name, string $year): string
     {
-        FileSystemService::delete($path, $name);
-
-        FileSystemService::download(sprintf($this->gasPriceYearUrl, $year), $name, $path);
-
-        if (false === FileSystemService::exist($path, $name)) {
-            throw new Exception();
-        }
-
-        if (false === FileSystemService::unzip(sprintf('%s%s', $path, $name), $path)) {
-            throw new Exception();
-        }
-
-        FileSystemService::delete($path, $name);
+//        FileSystemService::delete($path, $name);
+//
+//        FileSystemService::download(sprintf($this->gasPriceYearUrl, $year), $name, $path);
+//
+//        if (false === FileSystemService::exist($path, $name)) {
+//            throw new Exception();
+//        }
+//
+//        if (false === FileSystemService::unzip(sprintf('%s%s', $path, $name), $path)) {
+//            throw new Exception();
+//        }
+//
+//        FileSystemService::delete($path, $name);
 
         if (null === $xmlPath = FileSystemService::find($path, "%\.(xml)$%i")) {
             throw new Exception();

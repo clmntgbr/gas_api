@@ -1,7 +1,7 @@
 .idea
 .vscode
 src/Controller/HomeController.php
-
+/public/gas_prices/
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php

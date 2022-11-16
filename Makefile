@@ -139,6 +139,9 @@ gas-price-update:
 gas-price-year:
 	$(PHP) bin/console app:gas-price-year
 
+gas-price-week:
+	$(PHP) bin/console app:gas-price-week
+
 gas-station-closed:
 	$(PHP) bin/console app:gas-station-closed
 

@@ -2,9 +2,7 @@
 
 namespace App\ApiResource\Controller;
 
-use App\Dto\GasStationsMapDto;
 use App\Entity\GasPrice;
-use App\Entity\GasStation;
 use App\Repository\GasPriceRepository;
 use App\Repository\GasStationRepository;
 use App\Repository\GasTypeRepository;
