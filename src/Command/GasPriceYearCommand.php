@@ -30,12 +30,10 @@ class GasPriceYearCommand extends Command
     {
         $helper = $this->getHelper('question');
         $questionYear = new Question('Which year to insert ? ', '2007');
-        $questionDepartment = new Question('Which department to insert ? ', '94');
 
         $year = $helper->ask($input, $output, $questionYear);
-        $department = $helper->ask($input, $output, $questionDepartment);
 
-        $this->gasPriceYearService->update($year, $department);
+        $this->gasPriceYearService->update($year);
 
         return Command::SUCCESS;
     }

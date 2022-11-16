@@ -40,15 +40,23 @@ final class GasStationService
     {
         $this->messageBus->dispatch(new CreateGasStationMessage(
             $gasStationId,
-            $element['@attributes']['pop'] ?? throw new \Exception('Missing pop attributes'),
-            $element['@attributes']['cp'] ?? throw new \Exception('Missing cp attributes'),
-            $element['@attributes']['longitude'] ?? throw new \Exception('Missing longitude attributes'),
-            $element['@attributes']['latitude'] ?? throw new \Exception('Missing latitude attributes'),
-            $element['adresse'] ?? throw new \Exception('Missing addresse attributes'),
-            $element['ville'] ?? throw new \Exception('Missing ville attributes'),
+            $this->convert($element['@attributes']['pop'] ?? ''),
+            $this->convert($element['@attributes']['cp'] ?? ''),
+            $this->convert($element['@attributes']['longitude'] ?? ''),
+            $this->convert($element['@attributes']['latitude'] ?? ''),
+            $this->convert($element['adresse'] ?? ''),
+            $this->convert($element['ville'] ?? ''),
             'FRANCE',
             $element,
         ), [new AmqpStamp('async-priority-high', 0, [])]);
+    }
+
+    private function convert($datum): string
+    {
+        if (is_array($datum)) {
+            return implode(' ', $datum);
+        }
+        return $datum;
     }
 
     public function updateGasStationClosed(GasStation $gasStation)
